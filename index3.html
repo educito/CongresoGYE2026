@@ -1,0 +1,1382 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CITE² 2026 — III Congreso Internacional · Guayaquil</title>
+<meta name="description" content="III Congreso Internacional de Tecnologías Disruptivas y Emergentes en Educación. PhD. Gabriel Brito (Oxford), Dra. Alexandra Verdugo (ESPE), Dr. Diego Apolo (Lab21) y más · Guayaquil, 9–10 septiembre 2026." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          night:  '#05060f',
+          abyss:  '#0a0c1c',
+          panel:  '#0e1226',
+          neon:   { blue:'#38bdf8', indigo:'#6366f1', purple:'#a855f7', pink:'#f472b6', lime:'#a3e635' },
+        },
+        fontFamily: {
+          display: ['"Plus Jakarta Sans"','Inter','system-ui','sans-serif'],
+          sans: ['Inter','"Plus Jakarta Sans"','system-ui','sans-serif'],
+        },
+      }
+    }
+  }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  ::selection{ background:rgba(168,85,247,.45); color:#fff }
+  body{ background:#05060f }
+  .gradient-text{
+    background:linear-gradient(92deg,#67e8f9 0%,#38bdf8 30%,#a855f7 65%,#f472b6 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .glass{ background:rgba(10,12,28,.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px) }
+  .bg-grid{
+    background-image:
+      linear-gradient(rgba(148,163,184,.07) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(148,163,184,.07) 1px,transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 85% 62% at 50% 38%,#000 25%,transparent 74%);
+            mask-image:radial-gradient(ellipse 85% 62% at 50% 38%,#000 25%,transparent 74%);
+  }
+  .noise::after{
+    content:""; position:fixed; inset:0; z-index:70; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>");
+  }
+  #nav{ transition:background .4s,border-color .4s,backdrop-filter .4s }
+  #nav.nav-scrolled{ background:rgba(5,6,15,.82); border-bottom:1px solid rgba(148,163,184,.12); backdrop-filter:blur(16px) }
+
+  .card{
+    border:1px solid rgba(148,163,184,.14);
+    background:linear-gradient(180deg,rgba(15,18,38,.92),rgba(8,10,22,.92));
+    transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s;
+  }
+  .card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(56,189,248,.45);
+    box-shadow:0 24px 70px -28px rgba(56,189,248,.35), 0 0 0 1px rgba(56,189,248,.12) inset;
+  }
+  .spot::before{
+    content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; transition:opacity .45s;
+    background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%), rgba(56,189,248,.16), rgba(168,85,247,.09) 45%, transparent 70%);
+  }
+  .spot:hover::before{ opacity:1 }
+
+  @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .animate-marquee{ animation:marquee 30s linear infinite }
+
+  .btn-primary{
+    background:linear-gradient(92deg,#0ea5e9,#6366f1 55%,#c026d3);
+    box-shadow:0 12px 40px -12px rgba(99,102,241,.55);
+    transition:transform .35s, box-shadow .35s, filter .35s;
+  }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 20px 55px -14px rgba(99,102,241,.75); filter:saturate(1.15) }
+  .btn-ghost{ transition:transform .35s, border-color .35s, background .35s, color .35s }
+  .btn-ghost:hover{ transform:translateY(-3px) }
+
+  ::-webkit-scrollbar{ width:10px } ::-webkit-scrollbar-track{ background:#05060f }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(#38bdf8,#a855f7); border-radius:8px }
+
+  /* ============ CRONOGRAMA / TIMELINE ============ */
+  .schedule-tabs .tab-btn{ transition:all .4s ease }
+  .schedule-tabs .tab-btn:not(.active):hover{ background:rgba(255,255,255,.04) }
+  .tl-dot{
+    position:relative;
+    width:18px; height:18px;
+    margin:0 auto;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .tl-dot::before{
+    content:""; position:absolute; inset:0; border-radius:50%;
+    background:radial-gradient(circle at 50% 50%, #a855f7, #38bdf8);
+    box-shadow:0 0 0 6px rgba(168,85,247,.12), 0 0 24px rgba(56,189,248,.4);
+  }
+  .tl-dot::after{
+    content:""; position:absolute; inset:6px; border-radius:50%; background:#0a0c1c;
+  }
+  .timeline-stroke{ transform-origin:top; }
+  .tl-card--featured{
+    border-color:rgba(56,189,248,.4);
+    background:linear-gradient(135deg,rgba(56,189,248,.08),rgba(168,85,247,.08)) !important;
+    box-shadow:0 0 0 1px rgba(56,189,248,.12), 0 18px 60px -24px rgba(99,102,241,.35);
+  }
+  [data-accent="fuchsia"] .tl-card--featured{
+    border-color:rgba(244,114,182,.4);
+    background:linear-gradient(135deg,rgba(244,114,182,.08),rgba(168,85,247,.08)) !important;
+    box-shadow:0 0 0 1px rgba(244,114,182,.12), 0 18px 60px -24px rgba(168,85,247,.35);
+  }
+  @media (max-width: 767px){ .tl-dot{ margin:0 0 12px 0 } }
+  @keyframes clkSpinSec  { to { transform: rotate(360deg) } }
+  @keyframes clkSpinHour{ to { transform: rotate(360deg) } }
+  #clkMin  { animation: clkSpinSec  10s linear infinite; transform-origin: 130px 130px }
+  #clkHour { animation: clkSpinHour 120s linear infinite; transform-origin: 130px 130px }
+
+  /* Ponentes */
+  .speaker-card{
+    border:1px solid rgba(148,163,184,.14);
+    background:linear-gradient(180deg,rgba(15,18,38,.92),rgba(8,10,22,.92));
+    transition:all .5s cubic-bezier(.2,.7,.2,1);
+  }
+  .speaker-card:hover{
+    transform:translateY(-6px);
+    border-color:rgba(168,85,247,.45);
+    box-shadow:0 24px 70px -28px rgba(168,85,247,.35);
+  }
+  .speaker-card .avatar{ transition:transform .6s cubic-bezier(.2,.7,.2,1) }
+  .speaker-card:hover .avatar{ transform:scale(1.08) rotate(-3deg) }
+  .speaker-card .ring-glow::before{
+    content:""; position:absolute; inset:-4px; border-radius:50%;
+    background:conic-gradient(from 0deg, #38bdf8, #a855f7, #f472b6, #38bdf8);
+    opacity:0; transition:opacity .5s; filter:blur(8px); z-index:-1;
+  }
+  .speaker-card:hover .ring-glow::before{ opacity:.65 }
+
+  /* Acordeón de talleres */
+  .workshop-item{ transition:all .3s ease; border-left:2px solid rgba(148,163,184,.12) }
+  .workshop-item:hover{ border-left-color:rgba(56,189,248,.6); background:rgba(56,189,248,.04) }
+
+  @media (prefers-reduced-motion: reduce){
+    .animate-marquee, #clkMin, #clkHour{ animation:none }
+  }
+</style>
+</head>
+
+<body class="bg-night text-slate-300 font-sans antialiased overflow-x-hidden noise">
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 border-b border-transparent">
+  <nav class="container mx-auto px-6 h-[72px] flex items-center justify-between">
+    <a href="#inicio" class="nav-item flex items-center gap-3 group">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="lgLogo" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#38bdf8"/><stop offset=".55" stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#lgLogo)" stroke-width="2"/>
+        <path d="M30 17a9.5 9.5 0 1 0 0 14" stroke="url(#lgLogo)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="31.5" cy="24" r="3.2" fill="url(#lgLogo)"/>
+      </svg>
+      <span class="font-display font-extrabold text-white text-lg tracking-tight">CITE<span class="gradient-text">²</span> 2026</span>
+    </a>
+
+    <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+      <a class="nav-item hover:text-white transition" href="#caracteristicas">Características</a>
+      <a class="nav-item hover:text-white transition" href="#ejes">Ejes</a>
+      <a class="nav-item hover:text-white transition" href="#ponentes">Ponentes</a>
+      <a class="nav-item hover:text-white transition" href="#cronograma">Cronograma</a>
+      <a class="nav-item hover:text-white transition" href="#sede">Sede</a>
+      <a href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener"
+         class="nav-item btn-primary rounded-full px-5 py-2.5 text-white font-semibold">Inscríbete gratis</a>
+    </div>
+
+    <button id="menuBtn" aria-expanded="false" aria-label="Abrir menú" class="md:hidden p-2 rounded-lg border border-white/10 text-slate-200">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden glass border-t border-white/5 px-6 py-5 space-y-3 text-sm font-medium">
+    <a class="block hover:text-white" href="#caracteristicas">Características</a>
+    <a class="block hover:text-white" href="#ejes">Ejes</a>
+    <a class="block hover:text-white" href="#ponentes">Ponentes</a>
+    <a class="block hover:text-white" href="#cronograma">Cronograma</a>
+    <a class="block hover:text-white" href="#sede">Sede</a>
+    <a class="inline-block btn-primary rounded-full px-5 py-2.5 text-white font-semibold" href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener">Inscríbete gratis</a>
+  </div>
+</header>
+
+<main>
+<!-- ══════════════════ HERO ══════════════════ -->
+<section id="inicio" class="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
+  <div class="bg-grid absolute inset-0" aria-hidden="true"></div>
+  <div data-parallax="150" class="absolute -top-40 -right-40 w-[560px] h-[560px] rounded-full bg-sky-500/20 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div data-parallax="90"  class="absolute top-1/3 -left-48 w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div data-parallax="60"  class="absolute bottom-0 right-1/4 w-[380px] h-[380px] rounded-full bg-fuchsia-500/10 blur-3xl will-change-transform" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10">
+    <div>
+      <span class="hero-badge inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-sky-400/10 px-4 py-1.5 text-xs font-semibold tracking-wide text-sky-300">
+        <span class="w-2 h-2 rounded-full bg-neon-lime animate-pulse"></span>
+        GUAYAQUIL · 9–10 SEPTIEMBRE 2026 · EDICIÓN III
+      </span>
+
+      <h1 class="hero-title font-display font-extrabold text-white text-5xl md:text-6xl xl:text-[4.6rem] leading-[1.04] tracking-tight mt-6">
+        <span class="line block overflow-hidden"><span class="line-inner block">El futuro de la</span></span>
+        <span class="line block overflow-hidden"><span class="line-inner block gradient-text">educación</span></span>
+        <span class="line block overflow-hidden"><span class="line-inner block">ya está aquí.</span></span>
+      </h1>
+
+      <p class="hero-sub mt-6 text-lg text-slate-400 max-w-xl leading-relaxed">
+        <strong class="text-slate-200 font-semibold">III Congreso Internacional de Tecnologías Disruptivas y Emergentes en Educación.</strong>
+        Dos días para repensar el aula desde la <span class="text-sky-400">Inteligencia Artificial</span> y la
+        <span class="text-fuchsia-400">Robótica Educativa</span>, con expertos como el <span class="text-white font-semibold">PhD. Gabriel Brito (Oxford)</span> y autoridades del <span class="text-white font-semibold">MINEDEC</span>.
+      </p>
+
+      <div class="mt-9 flex flex-wrap items-center gap-4">
+        <a href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener"
+           class="hero-cta btn-primary inline-flex items-center gap-2 rounded-full px-8 py-4 text-white font-semibold">
+          Inscríbete gratis
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+        <a href="#cronograma" class="hero-cta btn-ghost inline-flex items-center gap-2 rounded-full px-8 py-4 font-semibold text-slate-200 border border-white/15 hover:border-sky-400/60 hover:bg-white/5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Ver cronograma
+        </a>
+      </div>
+
+      <div class="mt-8 flex flex-wrap gap-3 text-xs font-medium text-slate-400">
+        <span class="hero-meta inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 21s-7-5.2-7-11a7 7 0 1 1 14 0c0 5.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+          Universidad Católica Santiago de Guayaquil
+        </span>
+        <span class="hero-meta inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>
+          100% gratuito · Certificado oficial
+        </span>
+        <span class="hero-meta inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500/20 to-fuchsia-500/20 border border-white/10 px-4 py-2 text-slate-200">
+          🚀 Lanzamiento de la Agenda Educativa Digital 2026–2030
+        </span>
+      </div>
+    </div>
+
+    <div id="heroVisual" class="relative flex items-center justify-center lg:justify-end pr-0 lg:pr-10 will-change-transform">
+      <svg id="heroRings" viewBox="0 0 600 600" fill="none" class="absolute w-[560px] h-[560px] md:w-[640px] md:h-[640px] opacity-80 will-change-transform" aria-hidden="true">
+        <defs>
+          <linearGradient id="gRing" x1="0" y1="0" x2="1" y2="1">
+            <stop stop-color="#38bdf8"/><stop offset=".5" stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <circle cx="300" cy="300" r="210" stroke="url(#gRing)" stroke-opacity=".5"  stroke-width="1.5" stroke-dasharray="4 10"/>
+        <circle cx="300" cy="300" r="262" stroke="url(#gRing)" stroke-opacity=".22" stroke-width="1"/>
+        <circle cx="300" cy="300" r="150" stroke="url(#gRing)" stroke-opacity=".35" stroke-width="1" stroke-dasharray="70 16 6 16"/>
+        <circle cx="510" cy="300" r="6" fill="#38bdf8"/>
+        <circle cx="300" cy="38"  r="5" fill="#a855f7"/>
+        <circle cx="150" cy="430" r="4" fill="#f472b6"/>
+        <path d="M84 128h16M92 120v16"  stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+        <path d="M492 452h14M499 445v14" stroke="#a3e635" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+
+      <div class="absolute w-[340px] h-[340px] rounded-full bg-gradient-to-tr from-sky-500/30 via-purple-500/25 to-fuchsia-500/30 blur-3xl" aria-hidden="true"></div>
+      <div class="absolute bottom-2 w-56 h-8 rounded-full bg-purple-500/25 blur-2xl" aria-hidden="true"></div>
+
+      <img id="eugeniaImg" src="assets/eugenia.png"
+           onerror="this.style.display='none';document.getElementById('posterFallback').classList.remove('hidden');"
+           alt="Eugenia, mascota del Congreso CITE² 2026"
+           class="relative z-10 w-[300px] md:w-[400px] select-none pointer-events-none drop-shadow-[0_30px_60px_rgba(56,189,248,.35)] will-change-transform" />
+
+      <div id="posterFallback" class="hidden relative z-10 w-[280px] md:w-[360px] rounded-[2rem] overflow-hidden ring-1 ring-white/15 rotate-3 shadow-2xl shadow-purple-500/40">
+        <img src="https://educito.github.io/CongresoGYE2026/assets/eugenia-poster.jpg" alt="Eugenia, mascota del Congreso CITE² 2026" class="w-full h-auto" />
+      </div>
+
+      <span class="float-chip absolute z-20 top-8 left-2 md:left-6 glass rounded-2xl px-4 py-2 text-xs font-bold text-sky-300 border border-sky-400/30 shadow-lg shadow-sky-500/20">Dia 1 Inteligencia Artificial</span>
+      <span class="float-chip absolute z-20 bottom-24 -left-2 md:left-0 glass rounded-2xl px-4 py-2 text-xs font-bold text-fuchsia-300 border border-fuchsia-400/30 shadow-lg shadow-fuchsia-500/20">Dia 2 Robótica Educativa</span>
+      <span class="float-chip absolute z-20 top-1/2 right-0 md:-right-2 glass rounded-2xl px-4 py-2 text-xs font-bold text-lime-300 border border-lime-400/30 shadow-lg shadow-lime-500/20">🎓 Talleres </span>
+    </div>
+  </div>
+
+  <a href="#caracteristicas" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 hover:text-sky-400 transition" aria-label="Bajar">
+    <svg width="22" height="30" viewBox="0 0 24 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="30" rx="10"/><path d="M12 9v6" stroke-linecap="round" class="animate-bounce"/></svg>
+  </a>
+</section>
+
+<!-- ══════════════════ MARQUESINA ══════════════════ -->
+<div class="relative py-5 border-y border-white/5 bg-white/[.02] overflow-hidden" aria-hidden="true">
+  <div class="animate-marquee flex w-max">
+    <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
+      <span>MINEDEC</span><span class="text-sky-500">✦</span><span>LAB21</span><span class="text-fuchsia-500">✦</span>
+      <span>CHILDFUND</span><span class="text-sky-500">✦</span><span>ESPE</span><span class="text-fuchsia-500">✦</span>
+      <span>UDLA</span><span class="text-sky-500">✦</span><span>UTPL</span><span class="text-fuchsia-500">✦</span>
+      <span>UTEQ</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span>
+      <span>CASA GRANDE</span><span class="text-sky-500">✦</span><span>OXFORD</span><span class="text-fuchsia-500">✦</span>
+    </div>
+    <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
+      <span>MINEDEC</span><span class="text-sky-500">✦</span><span>LAB21</span><span class="text-fuchsia-500">✦</span>
+      <span>CHILDFUND</span><span class="text-sky-500">✦</span><span>ESPE</span><span class="text-fuchsia-500">✦</span>
+      <span>UDLA</span><span class="text-sky-500">✦</span><span>UTPL</span><span class="text-fuchsia-500">✦</span>
+      <span>UTEQ</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span>
+      <span>CASA GRANDE</span><span class="text-sky-500">✦</span><span>OXFORD</span><span class="text-fuchsia-500">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ FEATURES ══════════════════ -->
+<section id="caracteristicas" class="relative py-28 scroll-mt-24 overflow-hidden">
+  <div class="section-deco absolute inset-0 bg-grid opacity-60" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 relative">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-bold tracking-[.3em] text-sky-400 uppercase">¿Qué esperar?</p>
+      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+        Dos mundos disruptivos, <span class="gradient-text">una misión</span>
+      </h2>
+      <p class="text-slate-400 mt-5 leading-relaxed">
+        Conferencias magistrales, charlas educativas y talleres prácticos con ponentes nacionales e internacionales.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 mt-14">
+      <article class="feature-card spot card relative overflow-hidden rounded-3xl p-8 group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-500/20 to-purple-500/20 border border-sky-400/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg viewBox="0 0 48 48" fill="none" class="w-8 h-8">
+            <defs><linearGradient id="fIa" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+            <rect x="10" y="10" width="28" height="28" rx="9" stroke="url(#fIa)" stroke-width="2"/>
+            <path d="M18 10V5M30 10V5M18 43v-5M30 43v-5M10 18H5M10 30H5M43 18h-5M43 30h-5" stroke="url(#fIa)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="19" cy="20" r="2.6" fill="#38bdf8"/><circle cx="29" cy="20" r="2.6" fill="#a855f7"/><circle cx="24" cy="29" r="2.6" fill="#f472b6"/>
+            <path d="M19 20l5 9 5-9" stroke="url(#fIa)" stroke-width="1.6" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-sky-400">Día 1 · 09 sept</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Inteligencia Artificial</h3>
+        <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+          Ponencias de <span class="text-sky-300">PhD. Gabriel Brito (Oxford)</span>, lanzamiento de la Agenda Educativa Digital 2026–2030 y 10 talleres simultáneos de IA generativa en el aula.
+        </p>
+        <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+          <span class="rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25 px-3 py-1">IA generativa</span>
+          <span class="rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25 px-3 py-1">Ética & gobernanza</span>
+        </div>
+      </article>
+
+      <article class="feature-card spot card relative overflow-hidden rounded-3xl p-8 group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-fuchsia-500/20 to-purple-500/20 border border-fuchsia-400/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg viewBox="0 0 48 48" fill="none" class="w-8 h-8">
+            <defs><linearGradient id="fRob" x1="8" y1="8" x2="40" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+            <rect x="10" y="15" width="28" height="22" rx="8" stroke="url(#fRob)" stroke-width="2"/>
+            <path d="M24 15V9" stroke="url(#fRob)" stroke-width="2" stroke-linecap="round"/><circle cx="24" cy="6.5" r="2.6" fill="#f472b6"/>
+            <circle cx="19" cy="25" r="2.7" fill="#38bdf8"/><circle cx="29" cy="25" r="2.7" fill="#a855f7"/>
+            <path d="M19 31q5 4 10 0" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+            <path d="M10 24H6M42 24h-4" stroke="url(#fRob)" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-fuchsia-400">Día 2 · 10 sept</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Robótica Educativa</h3>
+        <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+          Metodologías STEAM y <span class="text-fuchsia-300">Máquinas de Goldberg</span> lideradas por ESPE–MINEDEC. <span class="text-fuchsia-300">30 grupos</span> de 10 docentes en el Coliseo UCSG.
+        </p>
+        <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/10 text-fuchsia-300 border border-fuchsia-400/25 px-3 py-1">STEAM</span>
+          <span class="rounded-full bg-fuchsia-400/10 text-fuchsia-300 border border-fuchsia-400/25 px-3 py-1">Goldberg</span>
+        </div>
+      </article>
+
+      <article class="feature-card spot card relative overflow-hidden rounded-3xl p-8 group">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-lime-500/20 to-sky-500/20 border border-lime-400/30 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+          <svg viewBox="0 0 48 48" fill="none" class="w-8 h-8">
+            <defs><linearGradient id="fT" x1="10" y1="6" x2="38" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+            <path d="M19 6h10M21 6v10L10.8 34.2A5 5 0 0 0 15.2 42h17.6a5 5 0 0 0 4.4-7.8L27 16V6" stroke="url(#fT)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M15 29h18" stroke="url(#fT)" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="21" cy="34.5" r="2" fill="#a3e635"/><circle cx="27.5" cy="37.5" r="1.6" fill="#38bdf8"/>
+          </svg>
+        </div>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-lime-400">Lanzamientos institucionales</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Agenda & Guías</h3>
+        <p class="text-sm text-slate-400 mt-3 leading-relaxed">
+          Lanzamiento oficial de la <span class="text-lime-300">Agenda Educativa Digital 2026–2030</span>, <span class="text-lime-300">Guías Didácticas SIEDI–ChildFund</span> y del proyecto CIETE‑CONCEPT.
+        </p>
+        <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+          <span class="rounded-full bg-lime-400/10 text-lime-300 border border-lime-400/25 px-3 py-1">AED 2026–30</span>
+          <span class="rounded-full bg-lime-400/10 text-lime-300 border border-lime-400/25 px-3 py-1">CIETE‑CONCEPT</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ EJES TEMÁTICOS ══════════════════ -->
+<section id="ejes" class="relative py-28 scroll-mt-24 overflow-hidden">
+  <div data-parallax="120" class="absolute top-10 left-1/3 w-[460px] h-[460px] rounded-full bg-indigo-600/15 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 relative">
+    <div class="max-w-2xl mx-auto text-center" data-reveal>
+      <p class="text-xs font-bold tracking-[.3em] text-fuchsia-400 uppercase">Ejes temáticos</p>
+      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">Dos días, <span class="gradient-text">dos mundos</span></h2>
+      <p class="text-slate-400 mt-5">Cada jornada tiene su propio bloque de conferencias, charlas educativas y taller práctico.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-8 mt-16">
+      <article class="eje-panel card rounded-[2rem] p-8 md:p-10 relative overflow-hidden">
+        <svg viewBox="0 0 420 300" fill="none" class="w-full h-auto mb-6" aria-hidden="true">
+          <defs>
+            <linearGradient id="iaG1" x1="0" y1="0" x2="420" y2="300" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+            <radialGradient id="iaGlow" cx=".5" cy=".5" r=".5"><stop stop-color="#38bdf8" stop-opacity=".3"/><stop offset="1" stop-color="#38bdf8" stop-opacity="0"/></radialGradient>
+            <filter id="iaSoft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <circle cx="210" cy="150" r="132" fill="url(#iaGlow)"/>
+          <circle cx="210" cy="150" r="120" stroke="url(#iaG1)" stroke-opacity=".3" stroke-dasharray="3 9"/>
+          <rect x="140" y="80" width="140" height="140" rx="26" fill="rgba(8,10,24,.65)" stroke="url(#iaG1)" stroke-width="2"/>
+          <path d="M170 80V58M210 80V50M250 80V58M170 220v22M210 220v28M250 220v22M140 110h-24M140 150h-32M140 190h-24M280 110h24M280 150h32M280 190h24" stroke="#475569" stroke-width="2" stroke-linecap="round"/>
+          <path class="draw" d="M175 120L210 105M175 120L210 150M175 120L210 195M175 150L210 105M175 150L210 150M175 150L210 195M175 180L210 105M175 180L210 150M175 180L210 195M210 105L245 130M210 105L245 170M210 150L245 130M210 150L245 170M210 195L245 130M210 195L245 170" stroke="url(#iaG1)" stroke-opacity=".55" stroke-width="1.4"/>
+          <g filter="url(#iaSoft)">
+            <circle cx="175" cy="120" r="6" fill="url(#iaG1)"/><circle cx="175" cy="150" r="6" fill="url(#iaG1)"/><circle cx="175" cy="180" r="6" fill="url(#iaG1)"/>
+            <circle cx="210" cy="105" r="6.5" fill="#38bdf8"/><circle cx="210" cy="150" r="6.5" fill="#6366f1"/><circle cx="210" cy="195" r="6.5" fill="#a855f7"/>
+            <circle cx="245" cy="130" r="6" fill="url(#iaG1)"/><circle cx="245" cy="170" r="6" fill="url(#iaG1)"/>
+          </g>
+          <path d="M330 66h14M337 59v14" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-sky-400">Día 1 · 09 septiembre</p>
+        <h3 class="font-display text-2xl font-bold text-white mt-2">IA para la Educación</h3>
+        <p class="text-sm text-slate-400 mt-3 leading-relaxed">Conferencias del PhD. Gabriel Brito (Oxford), Dr. Diego Apolo (Lab21) y lanzamiento oficial de la Agenda Educativa Digital 2026–2030 por el Viceministro de Educación.</p>
+        <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">Agencia humana & agentes virtuales</span>
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">Gobernanza & ética</span>
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">AED 2026–2030</span>
+        </div>
+      </article>
+
+      <article class="eje-panel card rounded-[2rem] p-8 md:p-10 relative overflow-hidden">
+        <svg viewBox="0 0 420 300" fill="none" class="w-full h-auto mb-6" aria-hidden="true">
+          <defs>
+            <linearGradient id="robG1" x1="0" y1="0" x2="420" y2="300" gradientUnits="userSpaceOnUse"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient>
+            <radialGradient id="robGlow" cx=".5" cy=".5" r=".5"><stop stop-color="#a855f7" stop-opacity=".28"/><stop offset="1" stop-color="#a855f7" stop-opacity="0"/></radialGradient>
+            <filter id="robSoft" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+          </defs>
+          <circle cx="210" cy="150" r="132" fill="url(#robGlow)"/>
+          <ellipse cx="210" cy="278" rx="84" ry="10" fill="#a855f7" opacity=".16"/>
+          <path d="M210 78V58" stroke="url(#robG1)" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="210" cy="50" r="7" fill="url(#robG1)" filter="url(#robSoft)"/>
+          <rect x="146" y="104" width="12" height="26" rx="6" fill="rgba(8,10,24,.7)" stroke="url(#robG1)" stroke-width="2"/>
+          <rect x="262" y="104" width="12" height="26" rx="6" fill="rgba(8,10,24,.7)" stroke="url(#robG1)" stroke-width="2"/>
+          <rect x="158" y="78" width="104" height="78" rx="22" fill="rgba(8,10,24,.7)" stroke="url(#robG1)" stroke-width="2"/>
+          <circle cx="190" cy="114" r="8" fill="#38bdf8" filter="url(#robSoft)"/><circle cx="193" cy="111" r="2.4" fill="#e0f2fe"/>
+          <circle cx="230" cy="114" r="8" fill="#a855f7" filter="url(#robSoft)"/><circle cx="233" cy="111" r="2.4" fill="#f3e8ff"/>
+          <path class="draw" d="M196 136q14 10 28 0" stroke="#67e8f9" stroke-width="2.5" stroke-linecap="round"/>
+          <rect x="150" y="166" width="120" height="88" rx="24" fill="rgba(8,10,24,.7)" stroke="url(#robG1)" stroke-width="2"/>
+          <rect x="176" y="186" width="68" height="46" rx="10" fill="#05060f" stroke="#38bdf8" stroke-opacity=".7" stroke-width="1.5"/>
+          <path d="M214 194l-13 19h10l-6 15 17-21h-10l8-13z" fill="#a3e635"/>
+          <g stroke="#64748b" stroke-width="2" stroke-linecap="round">
+            <circle cx="332" cy="92" r="12"/><circle cx="332" cy="92" r="4" fill="#64748b" stroke="none"/>
+          </g>
+          <path d="M352 190h12M358 184v12" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="70" cy="96" r="3.5" fill="#38bdf8"/>
+        </svg>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-fuchsia-400">Día 2 · 10 septiembre</p>
+        <h3 class="font-display text-2xl font-bold text-white mt-2">Robótica Educativa</h3>
+        <p class="text-sm text-slate-400 mt-3 leading-relaxed">Conferencias sobre robótica socialmente asistiva (Dr. Villota, UCSG) y un gran taller comunitario con 30 grupos construyendo Máquinas de Goldberg en el Coliseo de la UCSG.</p>
+        <div class="flex flex-wrap gap-2 mt-6 text-[11px] font-semibold">
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">Robótica asistiva</span>
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">NEE inclusiva</span>
+          <span class="rounded-full bg-white/5 border border-white/10 px-3 py-1.5 text-slate-300">CIETE‑CONCEPT</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ PONENTES DESTACADOS ══════════════════ -->
+<section id="ponentes" class="relative py-28 scroll-mt-24 overflow-hidden">
+  <div data-parallax="90" class="absolute top-20 right-0 w-[400px] h-[400px] rounded-full bg-fuchsia-500/15 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 relative">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <p class="text-xs font-bold tracking-[.3em] text-sky-400 uppercase">Voces que transforman el aula</p>
+      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+        Ponentes <span class="gradient-text">destacados</span>
+      </h2>
+      <p class="text-slate-400 mt-5">Expertos nacionales e internacionales, autoridades del MINEDEC y universidades aliadas del Ecuador.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
+
+      <!-- Gabriel Brito -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs>
+                <linearGradient id="av1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
+                <linearGradient id="av1b" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0e1226"/><stop offset="1" stop-color="#05060f"/></linearGradient>
+              </defs>
+              <circle cx="48" cy="48" r="46" fill="url(#av1b)" stroke="url(#av1)" stroke-width="2"/>
+              <circle cx="48" cy="40" r="14" fill="#64748b"/>
+              <path d="M22 78c4-12 14-18 26-18s22 6 26 18" fill="#475569"/>
+              <text x="48" y="54" text-anchor="middle" fill="url(#av1)" font-family="Plus Jakarta Sans" font-weight="800" font-size="22">PhD</text>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Conferencia Magistral · Oxford</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Gabriel Brito</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad de Oxford · Universidad Casa Grande</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “Educar la agencia humana en la era de los agentes virtuales.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 09:00</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">50 min</span>
+        </div>
+      </article>
+
+      <!-- Dra. Gilda Alcívar -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av2)" stroke-width="2"/>
+              <path d="M28 46c0-16 8-22 20-22s20 6 20 22v12c-8 4-32 4-40 0z" fill="#78350f"/>
+              <circle cx="48" cy="46" r="14" fill="#fcd34d" opacity=".9"/>
+              <path d="M24 80c4-14 14-20 24-20s20 6 24 20" fill="#9d174d"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Inauguración</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Dra. Gilda Alcívar</h3>
+            <p class="text-xs text-slate-400 mt-1">Ministra de Educación, Deporte y Cultura</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
+          Palabras de bienvenida junto al Viceministro de Educación, Viceministro de Gestión Educativa, y autoridades de Lab21 y ChildFund.
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 1 · 08:30</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+        </div>
+      </article>
+
+      <!-- Abg. José Luis Torres -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av3)" stroke-width="2"/>
+              <circle cx="48" cy="42" r="13" fill="#1f2937"/>
+              <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#374151"/>
+              <rect x="42" y="36" width="12" height="4" fill="#a3e635" opacity=".8"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-lime-400 uppercase">Lanzamiento · Agenda Digital</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Abg. José Luis Torres</h3>
+            <p class="text-xs text-slate-400 mt-1">Viceministro de Educación</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “Lanzamiento de la Agenda Educativa Digital 2026–2030.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-lime-400/15 text-lime-300 border border-lime-400/30 px-2.5 py-1">Día 1 · 09:50</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+        </div>
+      </article>
+
+      <!-- Dr. Diego Apolo -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67e8f9"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av4)" stroke-width="2"/>
+              <circle cx="48" cy="40" r="14" fill="#fbbf24"/>
+              <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#1e3a8a"/>
+              <path d="M34 38c4-4 10-6 14-6s10 2 14 6" stroke="#1f2937" stroke-width="2" fill="none"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Embajador · Lab21</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Dr. Diego Apolo</h3>
+            <p class="text-xs text-slate-400 mt-1">Apoyo Lab21 · Docente Investigador</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
+          Conferencia sobre IA aplicada al aula, con la mirada estratégica de Lab21 sobre el futuro del aprendizaje.
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 10:20</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+        </div>
+      </article>
+
+      <!-- Dra. Alexandra Verdugo -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av5)" stroke-width="2"/>
+              <path d="M30 42c0-14 8-22 18-22s18 8 18 22v14c-8 4-28 4-36 0z" fill="#7c2d12"/>
+              <circle cx="48" cy="44" r="12" fill="#fed7aa"/>
+              <path d="M26 78c4-14 14-20 22-20s18 6 22 20" fill="#be185d"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla · ESPE</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Dra. Alexandra Verdugo</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad de las Fuerzas Armadas · ESPE</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “La IA no reemplaza docentes, potencia el aprendizaje.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 1 · 11:40</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
+        </div>
+      </article>
+
+      <!-- Dr. Iván Ortiz -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av6)" stroke-width="2"/>
+              <circle cx="48" cy="40" r="14" fill="#374151"/>
+              <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#1e293b"/>
+              <rect x="40" y="34" width="16" height="4" fill="#a855f7" opacity=".8"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-purple-400 uppercase">Charla · UDLA</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Dr. Iván Ortiz</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad de Las Américas</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
+          Experiencia UDLA en innovación educativa con IA aplicada al aula ecuatoriana.
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-purple-400/15 text-purple-300 border border-purple-400/30 px-2.5 py-1">Día 1 · 11:55</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
+        </div>
+      </article>
+
+      <!-- Ing. Galo Cornejo -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av7" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av7)" stroke-width="2"/>
+              <circle cx="48" cy="42" r="13" fill="#1e293b"/>
+              <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#1e40af"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Conferencia · UCSG</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Ing. Galo Cornejo, Mgs.</h3>
+            <p class="text-xs text-slate-400 mt-1">UCSG · Dir. Carrera Ciencia de Datos e IA</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “Más allá de los algoritmos: gobernanza, alineación curricular y ética de la IA en la educación ecuatoriana.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 10:50</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+        </div>
+      </article>
+
+      <!-- PhD. Wellington Villota -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av8" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av8)" stroke-width="2"/>
+              <circle cx="48" cy="40" r="14" fill="#57534e"/>
+              <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#166534"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-lime-400 uppercase">Conferencia · UCSG</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Wellington Villota</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad Católica Santiago de Guayaquil</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “Robótica socialmente asistiva e IA adaptativa: personalización e inclusión en el aula.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-lime-400/15 text-lime-300 border border-lime-400/30 px-2.5 py-1">Día 2 · 10:10</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+        </div>
+      </article>
+
+      <!-- Ing. Hernán Lara -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av9" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av9)" stroke-width="2"/>
+              <circle cx="48" cy="42" r="13" fill="#374151"/>
+              <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#881337"/>
+              <circle cx="48" cy="50" r="4" fill="#a855f7"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla + Taller · ESPE</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Hernán Lara</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad de las Fuerzas Armadas · ESPE</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “¿Por qué llevamos 2.500 años construyendo robots?” + líder del taller comunitario de Máquinas de Goldberg.
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:30 / 14:00</span>
+        </div>
+      </article>
+
+      <!-- Ing. Abigail Mora -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="av10" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#fbbf24"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av10)" stroke-width="2"/>
+              <path d="M30 42c0-14 8-22 18-22s18 8 18 22v12c-8 4-28 4-36 0z" fill="#1c1917"/>
+              <circle cx="48" cy="44" r="12" fill="#fde68a"/>
+              <path d="M26 78c4-14 14-20 22-20s18 6 22 20" fill="#be185d"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla · UTEQ</p>
+            <h3 class="font-display text-xl font-bold text-white mt-1">Ing. Abigail Mora</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad Técnica Estatal de Quevedo</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
+          “Robótica educativa sin barreras: aceptación y apoyo al aprendizaje en niños con necesidades educativas especiales.”
+        </p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:45</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CRONOGRAMA ══════════════════ -->
+<section id="cronograma" class="relative py-28 scroll-mt-24 overflow-hidden">
+  <div data-parallax="140" class="absolute top-20 -left-40 w-[440px] h-[440px] rounded-full bg-sky-500/15 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div data-parallax="100" class="absolute bottom-10 -right-40 w-[440px] h-[440px] rounded-full bg-fuchsia-500/15 blur-3xl will-change-transform" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-6 relative">
+    <div class="max-w-3xl mx-auto text-center" data-reveal>
+      <p class="text-xs font-bold tracking-[.3em] text-lime-400 uppercase">Agenda oficial</p>
+      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">
+        Cronograma del <span class="gradient-text">congreso</span>
+      </h2>
+      <p class="text-slate-400 mt-5 leading-relaxed">
+        Horario completo de ambas jornadas, desde el registro hasta el cierre de talleres.
+      </p>
+
+      <div class="schedule-tabs inline-flex mt-10 rounded-full p-1.5 border border-white/10 bg-white/5 backdrop-blur-sm" role="tablist" aria-label="Días del congreso">
+        <button role="tab" aria-selected="true"  data-day="1" class="tab-btn active inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-gradient-to-r from-sky-500 to-indigo-500 shadow-lg shadow-sky-500/30 transition">
+          <span class="w-2 h-2 rounded-full bg-white"></span>
+          Día 1 — 09 sep · IA
+        </button>
+        <button role="tab" aria-selected="false" data-day="2" class="tab-btn inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold text-slate-400 hover:text-slate-200 transition">
+          <span class="w-2 h-2 rounded-full bg-slate-600"></span>
+          Día 2 — 10 sep · Robótica
+        </button>
+      </div>
+    </div>
+
+    <div class="relative mt-16 max-w-4xl mx-auto">
+      <svg class="timeline-line absolute left-1/2 top-0 -translate-x-1/2 w-1 h-full overflow-visible hidden md:block" viewBox="0 0 4 1000" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="tlLine" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%"   stop-color="#38bdf8"/>
+            <stop offset="50%"  stop-color="#a855f7"/>
+            <stop offset="100%" stop-color="#f472b6"/>
+          </linearGradient>
+        </defs>
+        <rect class="timeline-stroke" x="0" y="0" width="4" height="1000" fill="url(#tlLine)"/>
+      </svg>
+
+      <svg viewBox="0 0 260 260" fill="none" class="schedule-deco absolute -right-4 top-8 w-56 opacity-70 hidden xl:block" aria-hidden="true">
+        <defs><linearGradient id="clk" x1="0" y1="0" x2="260" y2="260" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+        <circle cx="130" cy="130" r="90" stroke="url(#clk)" stroke-opacity=".3" stroke-width="1.5" stroke-dasharray="3 10"/>
+        <circle cx="130" cy="130" r="70" stroke="url(#clk)" stroke-opacity=".55" stroke-width="2"/>
+        <g id="clkHour"><path d="M130 130V82" stroke="url(#clk)" stroke-width="4" stroke-linecap="round"/></g>
+        <g id="clkMin"><path d="M130 130V60" stroke="#67e8f9" stroke-width="2.5" stroke-linecap="round"/></g>
+        <circle cx="130" cy="130" r="6" fill="url(#clk)"/>
+        <g stroke="url(#clk)" stroke-width="2" stroke-linecap="round" opacity=".7">
+          <path d="M130 46v8M130 206v8M46 130h8M206 130h8"/>
+        </g>
+        <path d="M42 42h12M48 36v12" stroke="#a3e635" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="218" cy="210" r="3.5" fill="#67e8f9"/>
+      </svg>
+
+      <!-- ▸ DÍA 1 -->
+      <ol id="timeline-1" class="timeline-list relative space-y-10">
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">08:00 – 08:30 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Registro e ingreso</h3>
+            <p class="text-sm text-slate-400 mt-2">Recepción de participantes, entrega de credenciales y materiales.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">08:30 – 09:00 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Inauguración</h3>
+            <ul class="text-sm text-slate-400 mt-2 space-y-1 list-disc list-inside">
+              <li>Dra. Gilda Alcívar, Ministra de Educación, Deporte y Cultura</li>
+              <li>Ing. Walter Mera Ortiz, PhD. · Rector UCSG</li>
+              <li>Abg. José Luis Torres R. · Viceministro de Educación</li>
+              <li>Ing. Juan Carlos Rodríguez M. · Viceministro de Gestión Educativa</li>
+              <li>Directoras país de Lab21 y ChildFund Internacional</li>
+            </ul>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">09:00 – 09:50 · 50 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">PhD. Gabriel Brito · Oxford / Casa Grande</p>
+            <p class="text-sm text-slate-400 mt-1 italic">“Educar la agencia humana en la era de los agentes virtuales.”</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">09:50 – 10:20 · 30 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-lime-400/20 text-lime-300 border border-lime-400/40 rounded-full px-2 py-0.5">🚀 LANZAMIENTO</span>
+            </div>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Agenda Educativa Digital 2026–2030</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Abg. José Luis Torres Rodríguez · Viceministro de Educación</p>
+            <p class="text-sm text-slate-400 mt-1">Presentación oficial de la hoja de ruta tecnológica para la educación ecuatoriana.</p>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">10:20 – 10:50 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Diego Apolo · Apoyo Lab21</p>
+            <p class="text-sm text-slate-400 mt-1">Visión estratégica de Lab21 sobre la IA en el aprendizaje.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">10:50 – 11:20 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Ing. Galo Cornejo Gómez, Mgs. · UCSG</p>
+            <p class="text-sm text-slate-400 mt-1 italic">“Más allá de los algoritmos: gobernanza, alineación curricular y ética de la IA en la educación ecuatoriana.”</p>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-5 md:ml-8 bg-white/[.02]">
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">11:20 – 11:40 · 20 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">☕ Break</h3>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">11:40 – 12:25 · Charlas educativas (15 min c/u)</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Tres voces que inspiran</h3>
+            <ul class="text-sm text-slate-400 mt-2 space-y-2">
+              <li><strong class="text-slate-200">Dra. Alexandra Verdugo</strong> (ESPE) — “La IA no reemplaza docentes, potencia el aprendizaje”</li>
+              <li><strong class="text-slate-200">Dr. Iván Ortiz</strong> (UDLA) — Experiencia UDLA en IA educativa</li>
+              <li><strong class="text-slate-200">Docente MINEDEC</strong> — Experiencia docente del territorio</li>
+            </ul>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-5 md:ml-8 bg-white/[.02]">
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:25 – 13:45 · 80 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">🍽 Espacio para el almuerzo</h3>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-5 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">13:45 – 14:00 · 15 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1">Registro e ingreso · Tarde</h3>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card tl-card--featured rounded-2xl p-6 md:ml-8">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">14:00 – 16:00 · 120 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-sky-400/20 text-sky-300 border border-sky-400/40 rounded-full px-2 py-0.5">10 AULAS · 300 DOCENTES</span>
+            </div>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Talleres simultáneos de Inteligencia Artificial</h3>
+            <p class="text-sm text-slate-400 mt-2">10 aulas simultáneas con 30 participantes cada una, guiadas por expertos nacionales e internacionales:</p>
+            <div class="grid sm:grid-cols-2 gap-x-4 gap-y-1.5 mt-3 text-[11px] text-slate-300">
+              <span>01 · Experto Nacional Lab21</span>
+              <span>02 · Dra. Alexandra Verdugo (ESPE)</span>
+              <span>03 · UDLA</span>
+              <span>04 · Ing. Ángel Castro (UCSG)</span>
+              <span>05 · PhD. Hernán Lara (ESPE)</span>
+              <span>06 · Ing. Galo Cornejo (UCSG)</span>
+              <span>07 · Hamilton Cabrera (DTE MINEDEC)</span>
+              <span>08 · Jorge Muñoz (DTE MINEDEC)</span>
+              <span>09 · Víctor Pazmiño (DTE MINEDEC)</span>
+              <span>10 · Eduardo Vela (DTE MINEDEC)</span>
+            </div>
+          </article>
+        </li>
+      </ol>
+
+      <!-- ▸ DÍA 2 -->
+      <ol id="timeline-2" class="timeline-list hidden relative space-y-10" data-accent="fuchsia">
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">08:00 – 08:30 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Registro e ingreso</h3>
+            <p class="text-sm text-slate-400 mt-2">Recepción y acreditaciones para la segunda jornada.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">08:30 – 09:00 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Apertura Día 2</h3>
+            <p class="text-sm text-slate-400 mt-2">Resumen del primer día + ponencia de la Dirección de Tecnologías Educativas (DTE).</p>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">09:00 – 10:00 · 60 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral internacional</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Ponente internacional · Apoyo Lab21</p>
+            <p class="text-sm text-slate-400 mt-1">Visión global sobre IA y robótica aplicada al aula.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">10:10 – 10:40 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">PhD. Wellington Villota · UCSG</p>
+            <p class="text-sm text-slate-400 mt-1 italic">“Robótica socialmente asistiva e IA adaptativa: personalización e inclusión en el aula.”</p>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">10:40 – 11:10 · 30 min</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Carlos Calderón · UTPL</p>
+            <p class="text-sm text-slate-400 mt-1">Reflexión académica sobre la integración de tecnologías emergentes en la educación.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">10:50 – 11:20 · 30 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-lime-400/20 text-lime-300 border border-lime-400/40 rounded-full px-2 py-0.5">🚀 LANZAMIENTO</span>
+            </div>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Guías Didácticas SIEDI–ChildFund</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Ab. Miguel Emilio Félix Romero (Subsecretario SIEDI) + ChildFund Internacional</p>
+            <p class="text-sm text-slate-400 mt-1">Guías didácticas para el desarrollo de competencias digitales en el aula.</p>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-5 md:ml-8 bg-white/[.02]">
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">11:10 – 11:30 · 20 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">☕ Break</h3>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">11:30 – 12:15 · Charlas educativas (15 min c/u)</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Tres voces que inspiran</h3>
+            <ul class="text-sm text-slate-400 mt-2 space-y-2">
+              <li><strong class="text-slate-200">PhD. Hernán Lara</strong> (ESPE) — “¿Por qué llevamos 2.500 años construyendo robots?”</li>
+              <li><strong class="text-slate-200">Ing. Abigail Mora</strong> (UTEQ) — “Robótica educativa sin barreras: NEE inclusiva”</li>
+              <li><strong class="text-slate-200">Docente MINEDEC</strong> — Experiencia docente</li>
+            </ul>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card rounded-2xl p-6 md:ml-8">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:20 – 13:45 · 85 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-lime-400/20 text-lime-300 border border-lime-400/40 rounded-full px-2 py-0.5">🚀 LANZAMIENTO</span>
+            </div>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Almuerzo + CIETE‑CONCEPT</h3>
+            <p class="text-sm text-slate-400 mt-2">Lanzamiento del proyecto CIETE‑CONCEPT, una iniciativa conjunta MINEDEC–ESPE para la innovación educativa.</p>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card rounded-2xl p-5 md:mr-8 md:col-start-1">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">13:45 – 14:00 · 15 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1">Registro e ingreso · Tarde</h3>
+          </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <div class="md:text-right md:pr-8"></div>
+          <div class="tl-dot"></div>
+          <article class="tl-card card tl-card--featured rounded-2xl p-6 md:ml-8">
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">14:00 – 16:00 · 120 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-fuchsia-400/20 text-fuchsia-300 border border-fuchsia-400/40 rounded-full px-2 py-0.5">COLISEO UCSG</span>
+            </div>
+            <h3 class="font-display font-bold text-white text-lg mt-1">Taller masivo de Robótica Educativa</h3>
+            <p class="text-sm text-slate-400 mt-2">Liderado por ESPE–MINEDEC con metodología comunitaria y Máquinas de Goldberg. 30 grupos de 10 docentes trabajando de forma colaborativa en el Coliseo de la UCSG.</p>
+            <div class="flex flex-wrap gap-1.5 mt-3 text-[10px] font-semibold">
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Lidera: PhD. Hernán Lara</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">ESPE · MINEDEC</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Metodología comunitaria</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Máquinas de Goldberg</span>
+            </div>
+          </article>
+        </li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CIFRAS ══════════════════ -->
+<section id="cifras" class="relative py-24 scroll-mt-24 overflow-hidden border-y border-white/5 bg-abyss/60">
+  <svg class="section-deco absolute inset-0 w-full h-full opacity-20" viewBox="0 0 1200 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 110h240l30-30h180l30 30h240l30-30h180l30 30h240" stroke="#38bdf8" stroke-width="1.5" fill="none"/>
+    <path d="M0 150h300l40 40h220l40-40h300l40 40h260" stroke="#a855f7" stroke-width="1.5" fill="none" opacity=".8"/>
+    <circle cx="270" cy="80" r="4" fill="#38bdf8"/><circle cx="480" cy="110" r="4" fill="#a855f7"/>
+    <circle cx="750" cy="80" r="4" fill="#38bdf8"/><circle cx="600" cy="190" r="4" fill="#f472b6"/>
+  </svg>
+
+  <div class="container mx-auto px-6 relative">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-10 text-center">
+      <div data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl gradient-text"><span data-count="2">0</span></p>
+        <p class="mt-3 text-sm font-semibold text-slate-400 tracking-wide uppercase">Días de congreso</p>
+      </div>
+      <div data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl gradient-text"><span data-count="13">0</span><span>+</span></p>
+        <p class="mt-3 text-sm font-semibold text-slate-400 tracking-wide uppercase">Ponentes nacionales e internacionales</p>
+      </div>
+      <div data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl gradient-text"><span data-count="10">0</span></p>
+        <p class="mt-3 text-sm font-semibold text-slate-400 tracking-wide uppercase">Talleres simultáneos de IA</p>
+      </div>
+      <div data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl gradient-text"><span data-count="100">0</span><span>%</span></p>
+        <p class="mt-3 text-sm font-semibold text-slate-400 tracking-wide uppercase">Gratuito para docentes</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ CTA + COUNTDOWN ══════════════════ -->
+<section id="sede" class="relative py-28 scroll-mt-24 overflow-hidden">
+  <div data-parallax="100" class="absolute -bottom-32 right-0 w-[480px] h-[480px] rounded-full bg-sky-500/15 blur-3xl will-change-transform" aria-hidden="true"></div>
+  <div class="container mx-auto px-6 relative">
+    <div class="rounded-[2.5rem] p-[1px] bg-gradient-to-r from-sky-500/60 via-purple-500/60 to-fuchsia-500/60 shadow-2xl shadow-purple-500/20" data-reveal>
+      <div class="rounded-[2.5rem] bg-panel/95 px-8 py-14 md:p-16 grid lg:grid-cols-[1.2fr_.8fr] gap-12 items-center relative overflow-hidden">
+        <div class="bg-grid absolute inset-0 opacity-40" aria-hidden="true"></div>
+        <div class="relative">
+          <p class="text-xs font-bold tracking-[.3em] text-lime-400 uppercase">Cupos limitados · Guayaquil, Ecuador</p>
+          <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4 leading-tight">
+            Sé parte del <span class="gradient-text">CITE² 2026</span>
+          </h2>
+          <p class="text-slate-400 mt-5 max-w-lg leading-relaxed">
+            Regístrate como docente o autoridad educativa y vive dos días de conferencias, charlas y talleres prácticos en la Universidad Católica Santiago de Guayaquil.
+          </p>
+
+          <div class="flex gap-3 mt-8" role="timer" aria-label="Cuenta regresiva al congreso">
+            <div class="glass rounded-2xl border border-white/10 w-[74px] py-3 text-center"><p id="cd-d" class="font-display font-extrabold text-2xl text-white">00</p><p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Días</p></div>
+            <div class="glass rounded-2xl border border-white/10 w-[74px] py-3 text-center"><p id="cd-h" class="font-display font-extrabold text-2xl text-white">00</p><p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Horas</p></div>
+            <div class="glass rounded-2xl border border-white/10 w-[74px] py-3 text-center"><p id="cd-m" class="font-display font-extrabold text-2xl text-white">00</p><p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Min</p></div>
+            <div class="glass rounded-2xl border border-white/10 w-[74px] py-3 text-center"><p id="cd-s" class="font-display font-extrabold text-2xl text-white">00</p><p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Seg</p></div>
+          </div>
+
+          <a href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener"
+             class="btn-primary inline-flex items-center gap-2 rounded-full px-9 py-4 text-white font-semibold mt-9">
+            Inscríbete al congreso
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+
+        <div class="relative hidden lg:block">
+          <svg viewBox="0 0 220 220" fill="none" class="w-full h-auto" aria-hidden="true">
+            <defs><linearGradient id="ctR" x1="40" y1="160" x2="200" y2="40" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+            <path class="draw" d="M28 176c34 2 52-24 64-52" stroke="url(#ctR)" stroke-width="2" stroke-dasharray="5 8" stroke-linecap="round"/>
+            <path d="M196 40L96 108l34 14 22 34L196 40z" fill="rgba(8,10,24,.75)" stroke="url(#ctR)" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M196 40l-66 82" stroke="url(#ctR)" stroke-width="1.5"/>
+            <circle cx="150" cy="86" r="7" stroke="#67e8f9" stroke-width="2"/>
+            <path d="M40 60h12M46 54v12" stroke="#a3e635" stroke-width="2" stroke-linecap="round"/>
+            <path d="M180 160h12M186 154v12" stroke="#67e8f9" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="60" cy="120" r="3" fill="#a855f7"/><circle cx="196" cy="120" r="3" fill="#38bdf8"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="border-t border-white/5 bg-abyss/80 pt-16 pb-8">
+  <div class="container mx-auto px-6 grid md:grid-cols-3 gap-12">
+    <div>
+      <a href="#inicio" class="flex items-center gap-3">
+        <svg width="34" height="34" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+          <defs><linearGradient id="lgLogo2" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#38bdf8"/><stop offset=".55" stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+          <rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#lgLogo2)" stroke-width="2"/>
+          <path d="M30 17a9.5 9.5 0 1 0 0 14" stroke="url(#lgLogo2)" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="31.5" cy="24" r="3.2" fill="url(#lgLogo2)"/>
+        </svg>
+        <span class="font-display font-extrabold text-white text-lg">CITE<span class="gradient-text">²</span> 2026</span>
+      </a>
+      <p class="text-sm text-slate-500 mt-4 leading-relaxed max-w-xs">
+        III Congreso Internacional de Tecnologías Disruptivas y Emergentes en Educación. Organiza: Ministerio de Educación, Deporte y Cultura · SIEDI‑DTE.
+      </p>
+    </div>
+    <div>
+      <p class="font-display font-bold text-white text-sm uppercase tracking-[.2em]">Evento</p>
+      <ul class="mt-5 space-y-3 text-sm text-slate-400">
+        <li><a class="hover:text-sky-400 transition" href="#caracteristicas">Características</a></li>
+        <li><a class="hover:text-sky-400 transition" href="#ejes">Ejes temáticos</a></li>
+        <li><a class="hover:text-sky-400 transition" href="#ponentes">Ponentes destacados</a></li>
+        <li><a class="hover:text-sky-400 transition" href="#cronograma">Cronograma</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-display font-bold text-white text-sm uppercase tracking-[.2em]">Detalles</p>
+      <ul class="mt-5 space-y-3 text-sm text-slate-400">
+        <li>🗓 9 y 10 de septiembre, 2026</li>
+        <li>📍 Universidad Católica Santiago de Guayaquil</li>
+        <li>🎓 Docentes y autoridades · Básica y Bachillerato</li>
+        <li>🎟 100% gratuito con certificado oficial</li>
+      </ul>
+    </div>
+  </div>
+  <div class="container mx-auto px-6 mt-14 pt-6 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+    <p>© 2026 MINEDEC · SIEDI‑DTE — CITE². Todos los derechos reservados.</p>
+    <p>Hecho con <span class="text-sky-400">Tailwind</span> + <span class="text-fuchsia-400">GSAP</span> en Guayaquil 🇪🇨</p>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const nav = document.getElementById('nav');
+const onScrollNav = () => nav.classList.toggle('nav-scrolled', window.scrollY > 30);
+onScrollNav();
+addEventListener('scroll', onScrollNav, { passive: true });
+
+const menuBtn = document.getElementById('menuBtn'), mobileMenu = document.getElementById('mobileMenu');
+menuBtn.addEventListener('click', () => {
+  const open = mobileMenu.classList.toggle('hidden') === false;
+  menuBtn.setAttribute('aria-expanded', open);
+});
+mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+document.querySelectorAll('.spot, .speaker-card').forEach(card => {
+  card.addEventListener('pointermove', e => {
+    const r = card.getBoundingClientRect();
+    card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+    card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+  });
+});
+
+const TARGET = new Date('2026-09-09T08:00:00-05:00').getTime();
+const pad = n => String(n).padStart(2, '0');
+function tick(){
+  const diff = Math.max(0, TARGET - Date.now());
+  document.getElementById('cd-d').textContent = pad(Math.floor(diff / 864e5));
+  document.getElementById('cd-h').textContent = pad(Math.floor(diff / 36e5) % 24);
+  document.getElementById('cd-m').textContent = pad(Math.floor(diff / 6e4) % 60);
+  document.getElementById('cd-s').textContent = pad(Math.floor(diff / 1e3) % 60);
+}
+tick(); setInterval(tick, 1000);
+
+document.querySelectorAll('[data-count]').forEach(el => {
+  const target = parseInt(el.dataset.count, 10);
+  if (prefersReduced) { el.textContent = target; return; }
+  const state = { v: 0 };
+  gsap.to(state, {
+    v: target, duration: 2.2, ease: 'power2.out', snap: { v: 1 },
+    scrollTrigger: { trigger: el, start: 'top 88%' },
+    onUpdate: () => el.textContent = state.v
+  });
+});
+
+/* ===== CRONOGRAMA: switch de días ===== */
+document.querySelectorAll('.schedule-tabs .tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.schedule-tabs .tab-btn').forEach(b => {
+      b.classList.remove('active');
+      b.classList.remove('bg-gradient-to-r','from-sky-500','from-fuchsia-500','to-indigo-500','to-purple-600','shadow-lg','shadow-sky-500/30','shadow-fuchsia-500/30','text-white');
+      b.classList.add('text-slate-400');
+      const dot = b.querySelector('span');
+      if (dot) { dot.classList.remove('bg-white'); dot.classList.add('bg-slate-600'); }
+    });
+    btn.classList.add('active','bg-gradient-to-r','text-white');
+    if (btn.dataset.day === '1'){
+      btn.classList.add('from-sky-500','to-indigo-500','shadow-lg','shadow-sky-500/30');
+    } else {
+      btn.classList.add('from-fuchsia-500','to-purple-600','shadow-lg','shadow-fuchsia-500/30');
+    }
+    const dot = btn.querySelector('span');
+    if (dot) { dot.classList.remove('bg-slate-600'); dot.classList.add('bg-white'); }
+    btn.setAttribute('aria-selected','true');
+
+    const day = btn.dataset.day;
+    gsap.to('.timeline-list', { autoAlpha: 0, y: -20, duration: .4 });
+
+    const showId = day === '1' ? 'timeline-1' : 'timeline-2';
+    setTimeout(() => {
+      document.querySelectorAll('.timeline-list').forEach(l => l.classList.add('hidden'));
+      const target = document.getElementById(showId);
+      target.classList.remove('hidden');
+      gsap.fromTo(target, { autoAlpha: 0, y: 24 }, { autoAlpha: 1, y: 0, duration: .7, ease: 'power3.out' });
+      gsap.fromTo(`#${showId} .tl-item`, { y: 30, autoAlpha: 0 }, {
+        y: 0, autoAlpha: 1, stagger: .1, duration: .6, ease: 'power3.out'
+      });
+    }, 280);
+  });
+});
+
+if (!prefersReduced) {
+
+  const tl = gsap.timeline({ defaults: { ease: 'power4.out' } });
+  tl.from('#nav .nav-item',        { y: -20, autoAlpha: 0, stagger: .07, duration: .6 })
+    .from('.hero-badge',           { y: 24,  autoAlpha: 0, duration: .6 }, '-=.25')
+    .from('.hero-title .line-inner',{ yPercent: 115, duration: 1, stagger: .12 }, '-=.3')
+    .from('.hero-sub',             { y: 28,  autoAlpha: 0, duration: .7 }, '-=.55')
+    .from('.hero-cta',             { y: 22,  autoAlpha: 0, stagger: .1, duration: .5 }, '-=.45')
+    .from('.hero-meta',            { y: 16,  autoAlpha: 0, stagger: .08, duration: .5 }, '-=.3')
+    .from('#heroVisual',           { scale: .8, autoAlpha: 0, duration: 1.1, ease: 'back.out(1.6)' }, '-=.6');
+
+  gsap.to('#eugeniaImg',  { y: 16, duration: 3.2, yoyo: true, repeat: -1, ease: 'sine.inOut' });
+  gsap.to('.float-chip',  { y: -12, duration: 2.4, yoyo: true, repeat: -1, ease: 'sine.inOut', stagger: .35 });
+  gsap.to('#heroRings',   { rotation: 360, duration: 90, repeat: -1, ease: 'none', transformOrigin: '50% 50%' });
+
+  document.getElementById('inicio').addEventListener('pointermove', e => {
+    const x = e.clientX / innerWidth - .5, y = e.clientY / innerHeight - .5;
+    gsap.to('#heroVisual', { rotationY: x * 8, rotationX: -y * 6, transformPerspective: 900, duration: .8, ease: 'power2.out' });
+  });
+
+  gsap.utils.toArray('[data-parallax]').forEach(el => {
+    const dist = parseFloat(el.dataset.parallax) || 100;
+    gsap.fromTo(el, { y: -dist / 2 }, {
+      y: dist / 2, ease: 'none',
+      scrollTrigger: { trigger: el.closest('section') || el, start: 'top bottom', end: 'bottom top', scrub: true }
+    });
+  });
+
+  gsap.from('.feature-card', {
+    y: 70, autoAlpha: 0, duration: .9, stagger: .18, ease: 'power3.out',
+    scrollTrigger: { trigger: '#caracteristicas', start: 'top 70%' }
+  });
+
+  gsap.from('.eje-panel', {
+    y: 90, autoAlpha: 0, rotation: 1.5, duration: 1, stagger: .2, ease: 'power3.out',
+    scrollTrigger: { trigger: '#ejes', start: 'top 68%' }
+  });
+
+  gsap.from('.speaker-card', {
+    y: 50, autoAlpha: 0, duration: .8, stagger: .1, ease: 'power3.out',
+    scrollTrigger: { trigger: '#ponentes', start: 'top 70%' }
+  });
+
+  gsap.utils.toArray('.timeline-line').forEach(line => {
+    const stroke = line.querySelector('.timeline-stroke');
+    if (!stroke) return;
+    gsap.fromTo(stroke,
+      { scaleY: 0 },
+      {
+        scaleY: 1, transformOrigin: 'top', duration: 2.4, ease: 'power2.out',
+        scrollTrigger: { trigger: '#cronograma', start: 'top 60%' }
+      }
+    );
+  });
+
+  gsap.from('#timeline-1 .tl-item', {
+    y: 60, autoAlpha: 0, duration: .8, stagger: .14, ease: 'power3.out',
+    scrollTrigger: { trigger: '#timeline-1', start: 'top 70%' }
+  });
+
+  gsap.utils.toArray('path.draw').forEach(p => {
+    const len = p.getTotalLength();
+    gsap.set(p, { strokeDasharray: len, strokeDashoffset: len });
+    gsap.to(p, {
+      strokeDashoffset: 0, duration: 1.8, ease: 'power2.inOut',
+      scrollTrigger: { trigger: p.closest('svg'), start: 'top 80%' }
+    });
+  });
+
+  gsap.utils.toArray('[data-reveal]').forEach(el => {
+    gsap.from(el, {
+      y: 48, autoAlpha: 0, duration: .9, ease: 'power3.out',
+      scrollTrigger: { trigger: el, start: 'top 84%' }
+    });
+  });
+  gsap.utils.toArray('section').forEach(sec => {
+    const deco = sec.querySelector('.section-deco');
+    if (!deco) return;
+    gsap.fromTo(deco, { autoAlpha: .25 }, {
+      autoAlpha: 1, ease: 'none',
+      scrollTrigger: { trigger: sec, start: 'top bottom', end: 'center 55%', scrub: true }
+    });
+  });
+}
+</script>
+</body>
+</html>
