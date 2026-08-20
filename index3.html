@@ -148,6 +148,98 @@
   @media (prefers-reduced-motion: reduce){
     .animate-marquee, #clkMin, #clkHour{ animation:none }
   }
+  /* ============ VERSIÓN IMPRIMIBLE (PRINT CSS) ============ */
+.print-only{ display:none; }
+
+@media print {
+  @page { size: A4; margin: 12mm 10mm; }
+
+  /* ---- Base: papel blanco, tinta legible ---- */
+  html { font-size: 12.5px; }
+  body {
+    background: #fff !important;
+    color: #111827 !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  body.noise::after { display: none !important; }
+
+  /* ---- Neutraliza GSAP / animaciones / transforms inline ---- */
+  *, *::before, *::after {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+  }
+
+  /* ---- Oculta UI interactiva y decoración ---- */
+  #nav, #mobileMenu, #menuBtn,
+  #heroVisual, .float-chip, #heroRings,
+  [data-parallax], .bg-grid, .section-deco, .schedule-deco, .timeline-line,
+  .animate-marquee, div:has(> .animate-marquee),
+  .btn-primary, .btn-ghost, .schedule-tabs,
+  a[aria-label="Bajar"], [role="timer"],
+  .spot::before, .ring-glow::before { display: none !important; }
+
+  /* ---- Muestra contenido oculto en pantalla ---- */
+  .print-only { display: block !important; }
+  #timeline-2 { display: block !important; }   /* ambos días en el impreso */
+
+  /* ---- Tipografía y colores con contraste en papel ---- */
+  .gradient-text {
+    background: none !important;
+    -webkit-background-clip: initial !important; background-clip: initial !important;
+    -webkit-text-fill-color: currentColor !important;
+    color: #0f172a !important;
+  }
+  .text-white { color: #000 !important; }
+  .text-slate-200, .text-slate-300 { color: #1f2937 !important; }
+  .text-slate-400, .text-slate-500, .text-slate-600 { color: #374151 !important; }
+  .text-sky-300, .text-sky-400 { color: #0369a1 !important; }
+  .text-fuchsia-300, .text-fuchsia-400 { color: #a21caf !important; }
+  .text-purple-300, .text-purple-400 { color: #7e22ce !important; }
+  .text-lime-300, .text-lime-400 { color: #4d7c0f !important; }
+  .text-amber-300, .text-amber-400 { color: #b45309 !important; }
+
+  /* ---- Superficies: tarjetas blancas con borde gris ---- */
+  .card, .speaker-card, .tl-card, .glass,
+  .tl-card--featured, [class*="bg-white/"], [class*="bg-abyss"],
+  [class*="bg-panel"] {
+    background: #fff !important;
+    border: 1px solid #cbd5e1 !important;
+  }
+  .tl-card--featured { border: 2px solid #64748b !important; }
+  .rounded-full[class*="border"] { border-color: #94a3b8 !important; }
+  a { color: inherit !important; text-decoration: none !important; }
+
+  /* ---- Layout compacto tipo documento ---- */
+  section { min-height: 0 !important; padding: 6mm 0 !important; }
+  #inicio { padding-top: 0 !important; }
+  .container { max-width: 100% !important; padding-left: 0 !important; padding-right: 0 !important; }
+  #caracteristicas .grid { grid-template-columns: 1fr 1fr !important; }
+  footer .grid { grid-template-columns: 1fr 1fr !important; }
+
+  /* Timeline: lista continua de una columna (sin línea ni puntos) */
+  .tl-item { display: block !important; margin-bottom: 4mm !important; }
+  .tl-dot { display: none !important; }
+  .tl-card { margin: 0 !important; }
+
+  /* ---- Saltos de página limpios ---- */
+  .tl-item, .speaker-card, .feature-card, .eje-panel,
+  .print-doc-header, footer { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
+  #ponentes, #cronograma { break-before: page; }
+
+  /* Encabezado de documento */
+  .print-doc-header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 4mm; margin-bottom: 6mm;
+  }
+}
 </style>
 </head>
 
@@ -176,8 +268,9 @@
       <a class="nav-item hover:text-white transition" href="#ponentes">Ponentes</a>
       <a class="nav-item hover:text-white transition" href="#cronograma">Cronograma</a>
       <a class="nav-item hover:text-white transition" href="#sede">Sede</a>
-      <a href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener"
+      <a href="https://forms.cloud.microsoft/r/2Ptj01aKvR" target="_blank" rel="noopener"
          class="nav-item btn-primary rounded-full px-5 py-2.5 text-white font-semibold">Inscríbete gratis</a>
+            
     </div>
 
     <button id="menuBtn" aria-expanded="false" aria-label="Abrir menú" class="md:hidden p-2 rounded-lg border border-white/10 text-slate-200">
@@ -190,11 +283,25 @@
     <a class="block hover:text-white" href="#ponentes">Ponentes</a>
     <a class="block hover:text-white" href="#cronograma">Cronograma</a>
     <a class="block hover:text-white" href="#sede">Sede</a>
-    <a class="inline-block btn-primary rounded-full px-5 py-2.5 text-white font-semibold" href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener">Inscríbete gratis</a>
+    <a class="inline-block btn-primary rounded-full px-5 py-2.5 text-white font-semibold" href="https://forms.cloud.microsoft/r/2Ptj01aKvR" target="_blank" rel="noopener">Inscríbete gratis</a>
   </div>
 </header>
 
 <main>
+    <!-- ══════════════════ ENCABEZADO SOLO-IMPRESIÓN ══════════════════ -->
+  <div class="print-only print-doc-header">
+    <p class="text-[11px] font-bold tracking-[.25em] uppercase" style="color:#0369a1">
+      MINEDEC · SIEDI‑DTE — III Congreso Internacional de Tecnologías Disruptivas y Emergentes en Educación
+    </p>
+    <h1 class="font-display font-extrabold text-3xl mt-2" style="color:#000">
+      CITE² 2026 — Programa oficial del congreso
+    </h1>
+    <p class="text-sm mt-2" style="color:#374151">
+      Guayaquil, Ecuador · 9 y 10 de septiembre de 2026 · Universidad Católica Santiago de Guayaquil<br>
+      Día 1: Inteligencia Artificial · Día 2: Robótica Educativa · 100% gratuito con certificado oficial<br>
+      Inscripciones e información: https://educito.github.io/CongresoGYE2026/
+    </p>
+  </div>
 <!-- ══════════════════ HERO ══════════════════ -->
 <section id="inicio" class="relative min-h-screen flex items-center pt-32 pb-20 overflow-hidden">
   <div class="bg-grid absolute inset-0" aria-hidden="true"></div>
@@ -294,8 +401,7 @@
     <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
       <span>MINEDEC</span><span class="text-sky-500">✦</span><span>LAB21</span><span class="text-fuchsia-500">✦</span>
       <span>CHILDFUND</span><span class="text-sky-500">✦</span><span>ESPE</span><span class="text-fuchsia-500">✦</span>
-      <span>UDLA</span><span class="text-sky-500">✦</span><span>UTPL</span><span class="text-fuchsia-500">✦</span>
-      <span>UTEQ</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span>
+      <span>FUNDACIÓN TELEFÓNICA</span><span class="text-fuchsia-500">✦</span>      <span>UTEQ</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span>
       <span>CASA GRANDE</span><span class="text-sky-500">✦</span><span>OXFORD</span><span class="text-fuchsia-500">✦</span>
     </div>
     <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
@@ -469,6 +575,7 @@
 </section>
 
 <!-- ══════════════════ PONENTES DESTACADOS ══════════════════ -->
+<!-- ══════════════════ PONENTES DESTACADOS ══════════════════ -->
 <section id="ponentes" class="relative py-28 scroll-mt-24 overflow-hidden">
   <div data-parallax="90" class="absolute top-20 right-0 w-[400px] h-[400px] rounded-full bg-fuchsia-500/15 blur-3xl will-change-transform" aria-hidden="true"></div>
   <div class="container mx-auto px-6 relative">
@@ -480,275 +587,224 @@
       <p class="text-slate-400 mt-5">Expertos nacionales e internacionales, autoridades del MINEDEC y universidades aliadas del Ecuador.</p>
     </div>
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
+    <div id="speakersGrid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-14">
 
-      <!-- Gabriel Brito -->
+      <!-- 1 · Gabriel Brito -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs>
-                <linearGradient id="av1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient>
-                <linearGradient id="av1b" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#0e1226"/><stop offset="1" stop-color="#05060f"/></linearGradient>
-              </defs>
-              <circle cx="48" cy="48" r="46" fill="url(#av1b)" stroke="url(#av1)" stroke-width="2"/>
+              <defs><linearGradient id="sp1" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp1)" stroke-width="2"/>
               <circle cx="48" cy="40" r="14" fill="#64748b"/>
               <path d="M22 78c4-12 14-18 26-18s22 6 26 18" fill="#475569"/>
-              <text x="48" y="54" text-anchor="middle" fill="url(#av1)" font-family="Plus Jakarta Sans" font-weight="800" font-size="22">PhD</text>
+              <text x="48" y="56" text-anchor="middle" fill="url(#sp1)" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="20">PhD</text>
             </svg>
           </div>
           <div>
-            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Conferencia Magistral · Oxford</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Gabriel Brito</h3>
-            <p class="text-xs text-slate-400 mt-1">Universidad de Oxford · Universidad Casa Grande</p>
+            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Magistral · Oxford / Casa Grande</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">PhD. Gabriel Brito</h3>
+            <p class="text-xs text-slate-400 mt-1">Ecuatoriano radicado en el exterior · Auspicia ChildFund</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “Educar la agencia humana en la era de los agentes virtuales.”
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“Educar la agencia humana en la era de los agentes virtuales.”</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
           <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 09:00</span>
           <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">50 min</span>
         </div>
       </article>
 
-      <!-- Dra. Gilda Alcívar -->
+      <!-- 2 · Diego Apolo -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av2)" stroke-width="2"/>
-              <path d="M28 46c0-16 8-22 20-22s20 6 20 22v12c-8 4-32 4-40 0z" fill="#78350f"/>
-              <circle cx="48" cy="46" r="14" fill="#fcd34d" opacity=".9"/>
-              <path d="M24 80c4-14 14-20 24-20s20 6 24 20" fill="#9d174d"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Inauguración</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Dra. Gilda Alcívar</h3>
-            <p class="text-xs text-slate-400 mt-1">Ministra de Educación, Deporte y Cultura</p>
-          </div>
-        </div>
-        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
-          Palabras de bienvenida junto al Viceministro de Educación, Viceministro de Gestión Educativa, y autoridades de Lab21 y ChildFund.
-        </p>
-        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 1 · 08:30</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
-        </div>
-      </article>
-
-      <!-- Abg. José Luis Torres -->
-      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
-        <div class="flex items-center gap-4">
-          <div class="relative ring-glow">
-            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av3)" stroke-width="2"/>
-              <circle cx="48" cy="42" r="13" fill="#1f2937"/>
-              <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#374151"/>
-              <rect x="42" y="36" width="12" height="4" fill="#a3e635" opacity=".8"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold tracking-widest text-lime-400 uppercase">Lanzamiento · Agenda Digital</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Abg. José Luis Torres</h3>
-            <p class="text-xs text-slate-400 mt-1">Viceministro de Educación</p>
-          </div>
-        </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “Lanzamiento de la Agenda Educativa Digital 2026–2030.”
-        </p>
-        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-lime-400/15 text-lime-300 border border-lime-400/30 px-2.5 py-1">Día 1 · 09:50</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
-        </div>
-      </article>
-
-      <!-- Dr. Diego Apolo -->
-      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
-        <div class="flex items-center gap-4">
-          <div class="relative ring-glow">
-            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67e8f9"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av4)" stroke-width="2"/>
+              <defs><linearGradient id="sp2" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#67e8f9"/><stop offset="1" stop-color="#6366f1"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp2)" stroke-width="2"/>
               <circle cx="48" cy="40" r="14" fill="#fbbf24"/>
               <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#1e3a8a"/>
-              <path d="M34 38c4-4 10-6 14-6s10 2 14 6" stroke="#1f2937" stroke-width="2" fill="none"/>
             </svg>
           </div>
           <div>
-            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Embajador · Lab21</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Dr. Diego Apolo</h3>
-            <p class="text-xs text-slate-400 mt-1">Apoyo Lab21 · Docente Investigador</p>
+            <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Embajador Telefónica / Genially</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Dr. Diego Apolo Buenaño</h3>
+            <p class="text-xs text-slate-400 mt-1">Embajador PROFUTURO · Lab21</p>
           </div>
         </div>
-        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
-          Conferencia sobre IA aplicada al aula, con la mirada estratégica de Lab21 sobre el futuro del aprendizaje.
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“La paradoja de la IA: el talento que ninguna máquina podrá copiar” + taller “Eduprosumidores”.</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
           <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 10:20</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">Taller 1 · 14:00</span>
         </div>
       </article>
 
-      <!-- Dra. Alexandra Verdugo -->
+      <!-- 3 · Galo Cornejo -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av5)" stroke-width="2"/>
-              <path d="M30 42c0-14 8-22 18-22s18 8 18 22v14c-8 4-28 4-36 0z" fill="#7c2d12"/>
-              <circle cx="48" cy="44" r="12" fill="#fed7aa"/>
-              <path d="M26 78c4-14 14-20 22-20s18 6 22 20" fill="#be185d"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla · ESPE</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Dra. Alexandra Verdugo</h3>
-            <p class="text-xs text-slate-400 mt-1">Universidad de las Fuerzas Armadas · ESPE</p>
-          </div>
-        </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “La IA no reemplaza docentes, potencia el aprendizaje.”
-        </p>
-        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 1 · 11:40</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
-        </div>
-      </article>
-
-      <!-- Dr. Iván Ortiz -->
-      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
-        <div class="flex items-center gap-4">
-          <div class="relative ring-glow">
-            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av6)" stroke-width="2"/>
-              <circle cx="48" cy="40" r="14" fill="#374151"/>
-              <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#1e293b"/>
-              <rect x="40" y="34" width="16" height="4" fill="#a855f7" opacity=".8"/>
-            </svg>
-          </div>
-          <div>
-            <p class="text-[10px] font-bold tracking-widest text-purple-400 uppercase">Charla · UDLA</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Dr. Iván Ortiz</h3>
-            <p class="text-xs text-slate-400 mt-1">Universidad de Las Américas</p>
-          </div>
-        </div>
-        <p class="text-sm text-slate-400 mt-5 leading-relaxed">
-          Experiencia UDLA en innovación educativa con IA aplicada al aula ecuatoriana.
-        </p>
-        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-purple-400/15 text-purple-300 border border-purple-400/30 px-2.5 py-1">Día 1 · 11:55</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
-        </div>
-      </article>
-
-      <!-- Ing. Galo Cornejo -->
-      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
-        <div class="flex items-center gap-4">
-          <div class="relative ring-glow">
-            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av7" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av7)" stroke-width="2"/>
+              <defs><linearGradient id="sp3" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#38bdf8"/><stop offset="1" stop-color="#0ea5e9"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp3)" stroke-width="2"/>
               <circle cx="48" cy="42" r="13" fill="#1e293b"/>
               <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#1e40af"/>
             </svg>
           </div>
           <div>
             <p class="text-[10px] font-bold tracking-widest text-sky-400 uppercase">Conferencia · UCSG</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Ing. Galo Cornejo, Mgs.</h3>
-            <p class="text-xs text-slate-400 mt-1">UCSG · Dir. Carrera Ciencia de Datos e IA</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Ing. Galo Cornejo Gómez, Mgs.</h3>
+            <p class="text-xs text-slate-400 mt-1">Dir. Carrera Ciencia de Datos e IA · UCSG</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “Más allá de los algoritmos: gobernanza, alineación curricular y ética de la IA en la educación ecuatoriana.”
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“Más allá de los algoritmos: gobernanza, alineación curricular y ética de la IA…”</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
           <span class="rounded-full bg-sky-400/15 text-sky-300 border border-sky-400/30 px-2.5 py-1">Día 1 · 10:50</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">Taller 6</span>
         </div>
       </article>
 
-      <!-- PhD. Wellington Villota -->
+      <!-- 4 · Alexandra Verdugo -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av8" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av8)" stroke-width="2"/>
+              <defs><linearGradient id="sp4" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#38bdf8"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp4)" stroke-width="2"/>
+              <path d="M30 42c0-14 8-22 18-22s18 8 18 22v12c-8 4-28 4-36 0z" fill="#7c2d12"/>
+              <circle cx="48" cy="44" r="12" fill="#fed7aa"/>
+              <path d="M26 78c4-14 14-20 22-20s18 6 22 20" fill="#be185d"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla + Taller 2 · ESPE</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Dra. Alexandra Verdugo Cabrera</h3>
+            <p class="text-xs text-slate-400 mt-1">Universidad de las Fuerzas Armadas · ESPE</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“La IA no reemplaza docentes, potencia el aprendizaje” + “Diseñando experiencias con IA Generativa”.</p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 1 · 11:40</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">14:00</span>
+        </div>
+      </article>
+
+      <!-- 5 · ChildFund -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="sp5" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp5)" stroke-width="2"/>
+              <path d="M48 26l18 7v12c0 12-8 20-18 25-10-5-18-13-18-25V33z" fill="none" stroke="url(#sp5)" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M40 48l6 6 12-12" stroke="#67e8f9" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-purple-400 uppercase">Protección digital · Directora país</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">ChildFund Internacional</h3>
+            <p class="text-xs text-slate-400 mt-1">“Naveguemos Seguros” · Guías Didácticas SIEDI</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“Naveguemos Seguros: protección de la niñez en entornos digitales.”</p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-purple-400/15 text-purple-300 border border-purple-400/30 px-2.5 py-1">Día 1 · 11:55</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">Día 2 · 10:50</span>
+        </div>
+      </article>
+
+      <!-- 6 · Wellington Villota -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="sp6" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#a3e635"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp6)" stroke-width="2"/>
               <circle cx="48" cy="40" r="14" fill="#57534e"/>
               <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#166534"/>
             </svg>
           </div>
           <div>
             <p class="text-[10px] font-bold tracking-widest text-lime-400 uppercase">Conferencia · UCSG</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Wellington Villota</h3>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Lic. Wellington Villota, PhD.</h3>
             <p class="text-xs text-slate-400 mt-1">Universidad Católica Santiago de Guayaquil</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “Robótica socialmente asistiva e IA adaptativa: personalización e inclusión en el aula.”
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“Robótica socialmente asistiva e IA adaptativa: personalización e inclusión en el aula.”</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-lime-400/15 text-lime-300 border border-lime-400/30 px-2.5 py-1">Día 2 · 10:10</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">30 min</span>
+          <span class="rounded-full bg-lime-400/15 text-lime-300 border border-lime-400/30 px-2.5 py-1">Día 2 · 09:50</span>
         </div>
       </article>
 
-      <!-- Ing. Hernán Lara -->
+      <!-- 7 · Marcos Chacón -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av9" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av9)" stroke-width="2"/>
+              <defs><linearGradient id="sp7" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f59e0b"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp7)" stroke-width="2" stroke-dasharray="6 6"/>
+              <circle cx="48" cy="40" r="14" fill="#374151"/>
+              <path d="M24 78c4-12 14-18 24-18s20 6 24 18" fill="#1f2937"/>
+              <text x="48" y="54" text-anchor="middle" fill="url(#sp7)" font-family="Plus Jakarta Sans, sans-serif" font-weight="800" font-size="20">?</text>
+            </svg>
+          </div>
+          <div>
+            <p class="text-[10px] font-bold tracking-widest text-amber-400 uppercase">Internacional · Por confirmar</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Dr. Marcos Chacón Castro</h3>
+            <p class="text-xs text-slate-400 mt-1">Apertura magistral · Jornada de Robótica</p>
+          </div>
+        </div>
+        <p class="text-sm text-slate-400 mt-5 leading-relaxed">Ponente internacional que abrirá la jornada de Robótica Educativa del 10 de septiembre.</p>
+        <div class="flex gap-2 mt-5 text-[10px] font-semibold">
+          <span class="rounded-full bg-amber-400/15 text-amber-300 border border-amber-400/30 px-2.5 py-1">Día 2 · 09:00</span>
+        </div>
+      </article>
+
+      <!-- 8 · Hernán Lara -->
+      <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
+        <div class="flex items-center gap-4">
+          <div class="relative ring-glow">
+            <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
+              <defs><linearGradient id="sp8" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#a855f7"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp8)" stroke-width="2"/>
               <circle cx="48" cy="42" r="13" fill="#374151"/>
               <path d="M26 78c4-12 14-18 22-18s18 6 22 18" fill="#881337"/>
-              <circle cx="48" cy="50" r="4" fill="#a855f7"/>
+              <circle cx="48" cy="52" r="4" fill="#a855f7"/>
             </svg>
           </div>
           <div>
             <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla + Taller · ESPE</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">PhD. Hernán Lara</h3>
-            <p class="text-xs text-slate-400 mt-1">Universidad de las Fuerzas Armadas · ESPE</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Ing. Hernán Lara Padilla, PhD.</h3>
+            <p class="text-xs text-slate-400 mt-1">Líder del taller masivo de Goldberg · CIETE‑CONCEPT</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “¿Por qué llevamos 2.500 años construyendo robots?” + líder del taller comunitario de Máquinas de Goldberg.
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“¿Por qué llevamos 2.500 años construyendo robots?” + “¿Cómo enseñamos a pensar a las máquinas?”</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:30 / 14:00</span>
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:40</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">Taller 5 · 14:00</span>
         </div>
       </article>
 
-      <!-- Ing. Abigail Mora -->
+      <!-- 9 · Abigail Mora -->
       <article class="speaker-card rounded-3xl p-6 relative overflow-hidden">
         <div class="flex items-center gap-4">
           <div class="relative ring-glow">
             <svg viewBox="0 0 96 96" class="avatar w-20 h-20 rounded-full" aria-hidden="true">
-              <defs><linearGradient id="av10" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#fbbf24"/></linearGradient></defs>
-              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#av10)" stroke-width="2"/>
+              <defs><linearGradient id="sp9" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f472b6"/><stop offset="1" stop-color="#fbbf24"/></linearGradient></defs>
+              <circle cx="48" cy="48" r="46" fill="#0e1226" stroke="url(#sp9)" stroke-width="2"/>
               <path d="M30 42c0-14 8-22 18-22s18 8 18 22v12c-8 4-28 4-36 0z" fill="#1c1917"/>
               <circle cx="48" cy="44" r="12" fill="#fde68a"/>
               <path d="M26 78c4-14 14-20 22-20s18 6 22 20" fill="#be185d"/>
             </svg>
           </div>
           <div>
-            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla · UTEQ</p>
-            <h3 class="font-display text-xl font-bold text-white mt-1">Ing. Abigail Mora</h3>
+            <p class="text-[10px] font-bold tracking-widest text-fuchsia-400 uppercase">Charla + Taller 3 · UTEQ</p>
+            <h3 class="font-display text-lg font-bold text-white mt-1">Ing. Abigail Mora Reinado</h3>
             <p class="text-xs text-slate-400 mt-1">Universidad Técnica Estatal de Quevedo</p>
           </div>
         </div>
-        <p class="text-sm text-slate-300 mt-5 leading-relaxed font-medium italic">
-          “Robótica educativa sin barreras: aceptación y apoyo al aprendizaje en niños con necesidades educativas especiales.”
-        </p>
+        <p class="text-sm text-slate-300 mt-5 leading-relaxed italic">“Robótica educativa sin barreras: aceptación y apoyo al aprendizaje en niños con NEE.”</p>
         <div class="flex gap-2 mt-5 text-[10px] font-semibold">
-          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:45</span>
-          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">15 min</span>
+          <span class="rounded-full bg-fuchsia-400/15 text-fuchsia-300 border border-fuchsia-400/30 px-2.5 py-1">Día 2 · 11:55</span>
+          <span class="rounded-full bg-white/5 text-slate-300 border border-white/10 px-2.5 py-1">Taller 3 · Día 1</span>
         </div>
       </article>
 
@@ -780,6 +836,10 @@
           <span class="w-2 h-2 rounded-full bg-slate-600"></span>
           Día 2 — 10 sep · Robótica
         </button>
+              <button onclick="window.print()"
+              class="mt-4 inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold text-slate-300 border border-white/15 hover:border-lime-400/60 hover:text-white transition">
+        🖨️ Imprimir programa / Guardar PDF
+      </button>
       </div>
     </div>
 
@@ -810,6 +870,11 @@
       </svg>
 
       <!-- ▸ DÍA 1 -->
+            <!-- ▸ DÍA 1 -->
+            <!-- Antes de <ol id="timeline-1"> -->
+      <h3 class="print-only font-display font-extrabold text-xl mt-6 mb-4" style="color:#0369a1">
+        DÍA 1 — Miércoles 09 de septiembre de 2026 · Eje: Inteligencia Artificial
+      </h3>
       <ol id="timeline-1" class="timeline-list relative space-y-10">
 
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
@@ -829,9 +894,9 @@
             <ul class="text-sm text-slate-400 mt-2 space-y-1 list-disc list-inside">
               <li>Dra. Gilda Alcívar, Ministra de Educación, Deporte y Cultura</li>
               <li>Ing. Walter Mera Ortiz, PhD. · Rector UCSG</li>
-              <li>Abg. José Luis Torres R. · Viceministro de Educación</li>
-              <li>Ing. Juan Carlos Rodríguez M. · Viceministro de Gestión Educativa</li>
-              <li>Directoras país de Lab21 y ChildFund Internacional</li>
+              <li>Directora país de Lab XXI · Directora país de ChildFund Internacional</li>
+              <li>Abg. José Luis Torres Rodríguez · Viceministro de Educación</li>
+              <li>Ing. Juan Carlos Rodríguez Moreno · Viceministro de Gestión Educativa</li>
             </ul>
           </article>
           <div class="tl-dot"></div>
@@ -844,7 +909,7 @@
           <article class="tl-card card rounded-2xl p-6 md:ml-8">
             <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">09:00 – 09:50 · 50 min</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">PhD. Gabriel Brito · Oxford / Casa Grande</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">PhD. Gabriel Brito · Universidad de Oxford / Casa Grande</p>
             <p class="text-sm text-slate-400 mt-1 italic">“Educar la agencia humana en la era de los agentes virtuales.”</p>
           </article>
         </li>
@@ -869,8 +934,8 @@
           <article class="tl-card card rounded-2xl p-6 md:ml-8">
             <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">10:20 – 10:50 · 30 min</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Diego Apolo · Apoyo Lab21</p>
-            <p class="text-sm text-slate-400 mt-1">Visión estratégica de Lab21 sobre la IA en el aprendizaje.</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Diego Apolo Buenaño · Embajador Digital Fundación Telefónica / Genially</p>
+            <p class="text-sm text-slate-400 mt-1 italic">“La paradoja de la IA: el talento que ninguna máquina podrá copiar.”</p>
           </article>
         </li>
 
@@ -878,7 +943,7 @@
           <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
             <p class="text-[11px] font-bold tracking-[.2em] text-sky-400 uppercase">10:50 – 11:20 · 30 min</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">Ing. Galo Cornejo Gómez, Mgs. · UCSG</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Ing. Galo Cornejo Gómez, Mgs. · Dir. Carrera Ciencia de Datos e IA · UCSG</p>
             <p class="text-sm text-slate-400 mt-1 italic">“Más allá de los algoritmos: gobernanza, alineación curricular y ética de la IA en la educación ecuatoriana.”</p>
           </article>
           <div class="tl-dot"></div>
@@ -899,9 +964,9 @@
             <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">11:40 – 12:25 · Charlas educativas (15 min c/u)</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Tres voces que inspiran</h3>
             <ul class="text-sm text-slate-400 mt-2 space-y-2">
-              <li><strong class="text-slate-200">Dra. Alexandra Verdugo</strong> (ESPE) — “La IA no reemplaza docentes, potencia el aprendizaje”</li>
-              <li><strong class="text-slate-200">Dr. Iván Ortiz</strong> (UDLA) — Experiencia UDLA en IA educativa</li>
-              <li><strong class="text-slate-200">Docente MINEDEC</strong> — Experiencia docente del territorio</li>
+              <li><strong class="text-slate-200">11:40 · Dra. Alexandra Verdugo Cabrera</strong> (ESPE) — “La IA no reemplaza docentes, potencia el aprendizaje”</li>
+              <li><strong class="text-slate-200">11:55 · CHILDFUND</strong> — “Naveguemos Seguros / Protección de la niñez en entornos digitales”</li>
+              <li><strong class="text-slate-200">12:10 · Docente MINEDEC</strong> — Experiencia docente del territorio</li>
             </ul>
           </article>
           <div class="tl-dot"></div>
@@ -912,7 +977,7 @@
           <div class="md:text-right md:pr-8"></div>
           <div class="tl-dot"></div>
           <article class="tl-card card rounded-2xl p-5 md:ml-8 bg-white/[.02]">
-            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:25 – 13:45 · 80 min</p>
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:45 – 13:45 · 60 min</p>
             <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">🍽 Espacio para el almuerzo</h3>
           </article>
         </li>
@@ -935,24 +1000,29 @@
               <span class="text-[10px] font-bold tracking-widest bg-sky-400/20 text-sky-300 border border-sky-400/40 rounded-full px-2 py-0.5">10 AULAS · 300 DOCENTES</span>
             </div>
             <h3 class="font-display font-bold text-white text-lg mt-1">Talleres simultáneos de Inteligencia Artificial</h3>
-            <p class="text-sm text-slate-400 mt-2">10 aulas simultáneas con 30 participantes cada una, guiadas por expertos nacionales e internacionales:</p>
+            <p class="text-sm text-slate-400 mt-2">10 aulas de talleres simultáneos con Lab21, ESPE, UTEQ, UCSG y analistas DTE‑MINEDEC, más charlas de 15 minutos con experiencias que inspiran. Certificado oficial incluido.</p>
             <div class="grid sm:grid-cols-2 gap-x-4 gap-y-1.5 mt-3 text-[11px] text-slate-300">
-              <span>01 · Experto Nacional Lab21</span>
-              <span>02 · Dra. Alexandra Verdugo (ESPE)</span>
-              <span>03 · UDLA</span>
-              <span>04 · Ing. Ángel Castro (UCSG)</span>
-              <span>05 · PhD. Hernán Lara (ESPE)</span>
+              <span>01 · Dr. Diego Apolo — “Eduprosumidores: actores educativos para la era digital”</span>
+              <span>02 · Dra. Alexandra Verdugo (ESPE) — IA Generativa</span>
+              <span>03 · Ing. Abigail Mora (UTEQ)</span>
+              <span>04 · Ing. Ángel Castro (UCSG) — “Simular para aprender”</span>
+              <span>05 · PhD. Hernán Lara (ESPE) — “¿Cómo enseñamos a pensar a las máquinas?”</span>
               <span>06 · Ing. Galo Cornejo (UCSG)</span>
               <span>07 · Hamilton Cabrera (DTE MINEDEC)</span>
               <span>08 · Jorge Muñoz (DTE MINEDEC)</span>
               <span>09 · Víctor Pazmiño (DTE MINEDEC)</span>
-              <span>10 · Eduardo Vela (DTE MINEDEC)</span>
+              <span>10 · Johanna Guaraca (DTE MINEDEC)</span>
             </div>
           </article>
         </li>
       </ol>
 
       <!-- ▸ DÍA 2 -->
+            <!-- ▸ DÍA 2 -->
+            <!-- Antes de <ol id="timeline-2"> -->
+      <h3 class="print-only font-display font-extrabold text-xl mt-8 mb-4" style="color:#a21caf">
+        DÍA 2 — Jueves 10 de septiembre de 2026 · Eje: Robótica Educativa
+      </h3>
       <ol id="timeline-2" class="timeline-list hidden relative space-y-10" data-accent="fuchsia">
 
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
@@ -979,18 +1049,21 @@
           <div class="md:text-right md:pr-8"></div>
           <div class="tl-dot"></div>
           <article class="tl-card card rounded-2xl p-6 md:ml-8">
-            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">09:00 – 10:00 · 60 min</p>
+            <div class="flex items-center gap-2 mb-1">
+              <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">09:00 – 09:50 · 50 min</p>
+              <span class="text-[10px] font-bold tracking-widest bg-amber-400/20 text-amber-300 border border-amber-400/40 rounded-full px-2 py-0.5">POR CONFIRMAR</span>
+            </div>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral internacional</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">Ponente internacional · Apoyo Lab21</p>
-            <p class="text-sm text-slate-400 mt-1">Visión global sobre IA y robótica aplicada al aula.</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Marcos Chacón Castro</p>
+            <p class="text-sm text-slate-400 mt-1">Ponente internacional de la jornada de Robótica Educativa.</p>
           </article>
         </li>
 
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
           <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
-            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">10:10 – 10:40 · 30 min</p>
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">09:50 – 10:20 · 30 min</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">PhD. Wellington Villota · UCSG</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Lic. Wellington Villota, PhD. · UCSG</p>
             <p class="text-sm text-slate-400 mt-1 italic">“Robótica socialmente asistiva e IA adaptativa: personalización e inclusión en el aula.”</p>
           </article>
           <div class="tl-dot"></div>
@@ -1001,10 +1074,10 @@
           <div class="md:text-right md:pr-8"></div>
           <div class="tl-dot"></div>
           <article class="tl-card card rounded-2xl p-6 md:ml-8">
-            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">10:40 – 11:10 · 30 min</p>
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">10:20 – 10:50 · 30 min</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Conferencia magistral</h3>
-            <p class="text-sm text-slate-300 mt-2 font-semibold">Dr. Carlos Calderón · UTPL</p>
-            <p class="text-sm text-slate-400 mt-1">Reflexión académica sobre la integración de tecnologías emergentes en la educación.</p>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Ing. Jorge Freire</p>
+            <p class="text-sm text-slate-400 mt-1">Ponencia invitada de la jornada de robótica.</p>
           </article>
         </li>
 
@@ -1026,19 +1099,19 @@
           <div class="md:text-right md:pr-8"></div>
           <div class="tl-dot"></div>
           <article class="tl-card card rounded-2xl p-5 md:ml-8 bg-white/[.02]">
-            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">11:10 – 11:30 · 20 min</p>
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">11:20 – 11:40 · 20 min</p>
             <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">☕ Break</h3>
           </article>
         </li>
 
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
           <article class="tl-card card rounded-2xl p-6 md:mr-8 md:col-start-1">
-            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">11:30 – 12:15 · Charlas educativas (15 min c/u)</p>
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">11:40 – 12:25 · Charlas educativas (15 min c/u)</p>
             <h3 class="font-display font-bold text-white text-lg mt-1">Tres voces que inspiran</h3>
             <ul class="text-sm text-slate-400 mt-2 space-y-2">
-              <li><strong class="text-slate-200">PhD. Hernán Lara</strong> (ESPE) — “¿Por qué llevamos 2.500 años construyendo robots?”</li>
-              <li><strong class="text-slate-200">Ing. Abigail Mora</strong> (UTEQ) — “Robótica educativa sin barreras: NEE inclusiva”</li>
-              <li><strong class="text-slate-200">Docente MINEDEC</strong> — Experiencia docente</li>
+              <li><strong class="text-slate-200">11:40 · Ing. Hernán Lara Padilla, PhD.</strong> (ESPE) — “¿Por qué llevamos 2.500 años construyendo robots?”</li>
+              <li><strong class="text-slate-200">11:55 · Ing. Abigail Mora Reinado</strong> (UTEQ) — “Robótica educativa sin barreras: aceptación y apoyo al aprendizaje en niños con NEE”</li>
+              <li><strong class="text-slate-200">12:10 · Docente MINEDEC</strong> — Experiencia docente</li>
             </ul>
           </article>
           <div class="tl-dot"></div>
@@ -1050,18 +1123,19 @@
           <div class="tl-dot"></div>
           <article class="tl-card card rounded-2xl p-6 md:ml-8">
             <div class="flex items-center gap-2 mb-1">
-              <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:20 – 13:45 · 85 min</p>
+              <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:25 – 12:45 · 10 min</p>
               <span class="text-[10px] font-bold tracking-widest bg-lime-400/20 text-lime-300 border border-lime-400/40 rounded-full px-2 py-0.5">🚀 LANZAMIENTO</span>
             </div>
-            <h3 class="font-display font-bold text-white text-lg mt-1">Almuerzo + CIETE‑CONCEPT</h3>
-            <p class="text-sm text-slate-400 mt-2">Lanzamiento del proyecto CIETE‑CONCEPT, una iniciativa conjunta MINEDEC–ESPE para la innovación educativa.</p>
+            <h3 class="font-display font-bold text-white text-lg mt-1">CIETE‑CONCEPT</h3>
+            <p class="text-sm text-slate-300 mt-2 font-semibold">Lcdo. Hamilton Cabrera, Mgs. (MINEDEC) + Ing. Hernán Lara Padilla, PhD. (ESPE)</p>
+            <p class="text-sm text-slate-400 mt-1">Lanzamiento del proyecto conjunto MINEDEC–ESPE para la innovación educativa.</p>
           </article>
         </li>
 
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
-          <article class="tl-card card rounded-2xl p-5 md:mr-8 md:col-start-1">
-            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">13:45 – 14:00 · 15 min</p>
-            <h3 class="font-display font-semibold text-slate-200 text-base mt-1">Registro e ingreso · Tarde</h3>
+          <article class="tl-card card rounded-2xl p-5 md:mr-8 md:col-start-1 bg-white/[.02]">
+            <p class="text-[11px] font-bold tracking-[.2em] text-lime-400 uppercase">12:45 – 13:45 · 60 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1 flex items-center gap-2">🍽 Espacio para el almuerzo</h3>
           </article>
           <div class="tl-dot"></div>
           <div class="md:pl-8"></div>
@@ -1070,20 +1144,29 @@
         <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
           <div class="md:text-right md:pr-8"></div>
           <div class="tl-dot"></div>
-          <article class="tl-card card tl-card--featured rounded-2xl p-6 md:ml-8">
+          <article class="tl-card card rounded-2xl p-5 md:ml-8">
+            <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">13:45 – 14:00 · 15 min</p>
+            <h3 class="font-display font-semibold text-slate-200 text-base mt-1">Registro e ingreso · Tarde</h3>
+          </article>
+        </li>
+
+        <li class="tl-item md:grid md:grid-cols-[1fr_auto_1fr] md:gap-8">
+          <article class="tl-card card tl-card--featured rounded-2xl p-6 md:mr-8 md:col-start-1">
             <div class="flex items-center gap-2 mb-1">
               <p class="text-[11px] font-bold tracking-[.2em] text-fuchsia-400 uppercase">14:00 – 16:00 · 120 min</p>
               <span class="text-[10px] font-bold tracking-widest bg-fuchsia-400/20 text-fuchsia-300 border border-fuchsia-400/40 rounded-full px-2 py-0.5">COLISEO UCSG</span>
             </div>
             <h3 class="font-display font-bold text-white text-lg mt-1">Taller masivo de Robótica Educativa</h3>
-            <p class="text-sm text-slate-400 mt-2">Liderado por ESPE–MINEDEC con metodología comunitaria y Máquinas de Goldberg. 30 grupos de 10 docentes trabajando de forma colaborativa en el Coliseo de la UCSG.</p>
+            <p class="text-sm text-slate-400 mt-2">Liderado por ESPE–MINEDEC con metodología comunitaria y Máquinas de Goldberg (Golber). 30 grupos de 10 docentes construyendo de forma colaborativa.</p>
             <div class="flex flex-wrap gap-1.5 mt-3 text-[10px] font-semibold">
-              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Lidera: PhD. Hernán Lara</span>
-              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">ESPE · MINEDEC</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Lidera: ESPE · MINEDEC</span>
               <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Metodología comunitaria</span>
-              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Máquinas de Goldberg</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">Máquina de Golber</span>
+              <span class="rounded-md bg-white/5 text-slate-300 px-2 py-0.5">30 grupos · 10 docentes</span>
             </div>
           </article>
+          <div class="tl-dot"></div>
+          <div class="md:pl-8"></div>
         </li>
       </ol>
     </div>
@@ -1144,11 +1227,14 @@
             <div class="glass rounded-2xl border border-white/10 w-[74px] py-3 text-center"><p id="cd-s" class="font-display font-extrabold text-2xl text-white">00</p><p class="text-[10px] uppercase tracking-widest text-slate-500 mt-1">Seg</p></div>
           </div>
 
-          <a href="https://educito.github.io/CongresoGYE2026/" target="_blank" rel="noopener"
+          <a href="https://forms.cloud.microsoft/r/2Ptj01aKvR" target="_blank" rel="noopener"
              class="btn-primary inline-flex items-center gap-2 rounded-full px-9 py-4 text-white font-semibold mt-9">
             Inscríbete al congreso
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
           </a>
+                    <p class="print-only text-sm mt-6" style="color:#374151">
+            <strong style="color:#000">Inscríbete:</strong> https://forms.cloud.microsoft/r/2Ptj01aKvR · Cupos limitados · Certificado oficial MINEDEC.
+          </p>
         </div>
 
         <div class="relative hidden lg:block">
@@ -1331,10 +1417,19 @@ if (!prefersReduced) {
     scrollTrigger: { trigger: '#ejes', start: 'top 68%' }
   });
 
-  gsap.from('.speaker-card', {
-    y: 50, autoAlpha: 0, duration: .8, stagger: .1, ease: 'power3.out',
-    scrollTrigger: { trigger: '#ponentes', start: 'top 70%' }
+    /* PONENTES: reveal seguro, tarjeta por tarjeta */
+  gsap.utils.toArray('.speaker-card').forEach((card, i) => {
+    gsap.fromTo(card,
+      { y: 50, autoAlpha: 0 },
+      {
+        y: 0, autoAlpha: 1, duration: .8, ease: 'power3.out',
+        delay: (i % 3) * .12,   // stagger visual por fila
+        scrollTrigger: { trigger: card, start: 'top 92%', once: true }
+      });
   });
+
+  // Refresca posiciones tras cargar fuentes/imágenes (evita triggers desfasados)
+  addEventListener('load', () => ScrollTrigger.refresh());;
 
   gsap.utils.toArray('.timeline-line').forEach(line => {
     const stroke = line.querySelector('.timeline-stroke');
