@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Memorias CITE² 2026 — Congreso Internacional · Guayaquil</title>
+<meta name="description" content="Memorias del III Congreso Internacional de Tecnologías Emergentes y Disruptivas en la Educación (CITE²). Guayaquil, 9 y 10 de septiembre de 2026: conferencias, transmisiones, lanzamientos y galerías de fotos." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { night:'#05060f', abyss:'#0a0c1c', panel:'#0e1226',
+      neon:{ blue:'#38bdf8', indigo:'#6366f1', purple:'#a855f7', pink:'#f472b6', lime:'#a3e635' } },
+    fontFamily: { display:['"Plus Jakarta Sans"','Inter','system-ui','sans-serif'],
+      sans:['Inter','"Plus Jakarta Sans"','system-ui','sans-serif'] } } } }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+<style>
+  ::selection{ background:rgba(168,85,247,.45); color:#fff }
+  html,body{ background:#05060f }
+  .gradient-text{ background:linear-gradient(92deg,#67e8f9 0%,#38bdf8 30%,#a855f7 65%,#f472b6 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent }
+  .glass{ background:rgba(10,12,28,.6); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px) }
+  .bg-grid{ background-image:linear-gradient(rgba(148,163,184,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.07) 1px,transparent 1px);
+    background-size:56px 56px;
+    -webkit-mask-image:radial-gradient(ellipse 85% 62% at 50% 38%,#000 25%,transparent 74%);
+            mask-image:radial-gradient(ellipse 85% 62% at 50% 38%,#000 25%,transparent 74%) }
+  .noise::after{ content:""; position:fixed; inset:0; z-index:70; pointer-events:none; opacity:.05; mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.6'/></svg>") }
+  #nav{ transition:background .4s,border-color .4s }
+  #nav.nav-scrolled{ background:rgba(5,6,15,.84); border-bottom:1px solid rgba(148,163,184,.12); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px) }
+  .nav-link.is-active{ color:#fff }
+  .nav-link.is-active::after{ content:""; display:block; height:2px; margin-top:4px; border-radius:2px; background:linear-gradient(90deg,#38bdf8,#a855f7) }
+
+  .card{ border:1px solid rgba(148,163,184,.14); background:linear-gradient(180deg,rgba(15,18,38,.92),rgba(8,10,22,.92));
+    transition:transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s, box-shadow .5s }
+  .card-hover:hover{ transform:translateY(-4px); border-color:rgba(56,189,248,.45);
+    box-shadow:0 24px 70px -28px rgba(56,189,248,.35), 0 0 0 1px rgba(56,189,248,.12) inset }
+  .spot::before{ content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; opacity:0; transition:opacity .45s;
+    background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%), rgba(56,189,248,.14), rgba(168,85,247,.08) 45%, transparent 70%) }
+  .spot:hover::before{ opacity:1 }
+
+  @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .animate-marquee{ animation:marquee 34s linear infinite }
+  @keyframes floaty{ 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-14px) } }
+  .floaty{ animation:floaty 6s ease-in-out infinite }
+
+  .btn-primary{ background:linear-gradient(92deg,#0ea5e9,#6366f1 55%,#c026d3); box-shadow:0 12px 40px -12px rgba(99,102,241,.55);
+    transition:transform .35s, box-shadow .35s, filter .35s }
+  .btn-primary:hover{ transform:translateY(-3px); box-shadow:0 20px 55px -14px rgba(99,102,241,.75); filter:saturate(1.15) }
+  .btn-ghost{ transition:transform .35s, border-color .35s, background .35s, color .35s }
+  .btn-ghost:hover{ transform:translateY(-3px) }
+  :focus-visible{ outline:2px solid #38bdf8; outline-offset:3px; border-radius:8px }
+
+  ::-webkit-scrollbar{ width:10px } ::-webkit-scrollbar-track{ background:#05060f }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(#38bdf8,#a855f7); border-radius:8px }
+
+  /* Hero collage */
+  .polaroid{ position:absolute; border-radius:1.25rem; overflow:hidden; border:1px solid rgba(255,255,255,.14);
+    box-shadow:0 30px 80px -30px rgba(0,0,0,.9), 0 0 0 1px rgba(56,189,248,.08) }
+  .polaroid img{ width:100%; height:100%; object-fit:cover }
+
+  /* Días */
+  .talk{ position:relative; display:flex; flex-direction:column }
+  .talk::before{ content:""; position:absolute; left:0; top:22px; bottom:22px; width:3px; border-radius:0 3px 3px 0;
+    background:var(--dot,#38bdf8); box-shadow:0 0 14px var(--dot,#38bdf8) }
+  .talk-avatar{ width:3.25rem; height:3.25rem; border-radius:9999px; object-fit:cover; object-position:50% 22%;
+    border:2px solid rgba(56,189,248,.5); background:#0e1226 }
+  .half-label{ display:inline-flex; align-items:center; gap:.6rem }
+  .half-label::after{ content:""; width:64px; height:1px; background:linear-gradient(90deg,rgba(148,163,184,.4),transparent) }
+
+  /* Carruseles */
+  .track{ display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth;
+    padding:.5rem 7%; scrollbar-width:none; -webkit-overflow-scrolling:touch }
+  .track::-webkit-scrollbar{ display:none }
+  @media (min-width:640px){ .track{ padding-inline:14% } }
+  @media (min-width:1024px){ .track{ padding-inline:21%; gap:1.25rem } }
+  .slide{ position:relative; flex:0 0 86%; aspect-ratio:16/10; scroll-snap-align:center; border-radius:1.5rem; overflow:hidden;
+    border:1px solid rgba(148,163,184,.16); background:#0e1226; cursor:zoom-in;
+    transition:transform .6s cubic-bezier(.2,.7,.2,1), opacity .6s, border-color .4s; transform:scale(.93); opacity:.45 }
+  @media (min-width:640px){ .slide{ flex-basis:72% } }
+  @media (min-width:1024px){ .slide{ flex-basis:58% } }
+  .slide.is-active{ transform:none; opacity:1; border-color:rgba(56,189,248,.45); box-shadow:0 30px 80px -35px rgba(56,189,248,.45) }
+  .slide img{ width:100%; height:100%; object-fit:cover; transition:transform 1.2s cubic-bezier(.2,.7,.2,1) }
+  .slide.is-active:hover img{ transform:scale(1.04) }
+  .slide .zoom{ position:absolute; right:1rem; bottom:1rem; opacity:0; transition:opacity .35s }
+  .slide.is-active .zoom{ opacity:1 }
+  .car-btn{ width:2.9rem; height:2.9rem; border-radius:9999px; display:flex; align-items:center; justify-content:center; color:#fff;
+    border:1px solid rgba(255,255,255,.16); transition:border-color .3s, transform .3s, background .3s }
+  .car-btn:hover{ border-color:rgba(56,189,248,.7); transform:scale(1.06); background:rgba(56,189,248,.12) }
+  .dots button{ height:6px; width:6px; border-radius:9999px; background:rgba(148,163,184,.35); transition:all .35s }
+  .dots button.is-current{ width:26px; background:linear-gradient(90deg,#38bdf8,#a855f7) }
+
+  /* Lightbox */
+  #lightbox{ opacity:0; pointer-events:none; transition:opacity .3s }
+  #lightbox.open{ opacity:1; pointer-events:auto }
+  #lbImg{ transition:opacity .25s, transform .35s cubic-bezier(.2,.7,.2,1) }
+  #lbImg.loading{ opacity:0; transform:scale(.98) }
+  .lb-thumbs::-webkit-scrollbar{ height:6px }
+  .lb-thumb{ opacity:.45; transition:opacity .25s, outline-color .25s; outline:2px solid transparent; outline-offset:2px }
+  .lb-thumb.is-current{ opacity:1; outline-color:#38bdf8 }
+
+  @media (prefers-reduced-motion:reduce){
+    *,*::before,*::after{ animation:none !important; transition:none !important; scroll-behavior:auto !important }
+  }
+
+  /* Impresión */
+  @media print{
+    @page{ size:A4; margin:12mm 10mm }
+    body{ background:#fff !important; color:#111 !important }
+    body.noise::after,#nav,#lightbox,.no-print,.carousel,.marquee-wrap{ display:none !important }
+    *{ box-shadow:none !important; text-shadow:none !important; animation:none !important }
+    .gradient-text{ background:none !important; color:#0f172a !important; -webkit-text-fill-color:currentColor !important }
+    .card,.glass{ background:#fff !important; border:1px solid #cbd5e1 !important }
+    .text-white,.text-slate-200,.text-slate-300{ color:#111 !important }
+    .text-slate-400,.text-slate-500{ color:#374151 !important }
+    .talk{ break-inside:avoid }
+    section{ padding:6mm 0 !important; min-height:0 !important }
+  }
+</style>
+</head>
+
+<body class="bg-night text-slate-300 font-sans antialiased overflow-x-hidden noise">
+
+<!-- ══════════════════ NAVBAR ══════════════════ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-50 border-b border-transparent">
+  <nav class="container mx-auto px-4 sm:px-6 h-[72px] flex items-center justify-between">
+    <a href="#inicio" class="flex items-center gap-3">
+      <svg width="36" height="36" viewBox="0 0 48 48" fill="none" aria-hidden="true">
+        <defs><linearGradient id="lgLogo" x1="6" y1="6" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#38bdf8"/><stop offset=".55" stop-color="#a855f7"/><stop offset="1" stop-color="#f472b6"/></linearGradient></defs>
+        <rect x="3" y="3" width="42" height="42" rx="13" stroke="url(#lgLogo)" stroke-width="2"/>
+        <path d="M30 17a9.5 9.5 0 1 0 0 14" stroke="url(#lgLogo)" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="31.5" cy="24" r="3.2" fill="url(#lgLogo)"/>
+      </svg>
+      <span class="font-display font-extrabold text-white text-lg tracking-tight leading-none">CITE<span class="gradient-text">²</span> 2026
+        <span class="block text-[10px] font-semibold tracking-[.3em] text-slate-500 mt-1">MEMORIAS</span></span>
+    </a>
+    <div class="hidden md:flex items-center gap-7 text-sm font-medium">
+      <a class="nav-link hover:text-white transition" href="#resumen">Resumen</a>
+      <a class="nav-link hover:text-white transition" href="#dia1">Día 1 · IA</a>
+      <a class="nav-link hover:text-white transition" href="#dia2">Día 2 · Robótica</a>
+      <a class="nav-link hover:text-white transition" href="#materiales">Materiales</a>
+      <a href="https://drive.google.com/drive/folders/1nAHOsZHSKHEg5mvmA9DI1sCv0L_iSQeJ?usp=sharing" target="_blank" rel="noopener"
+         class="btn-primary rounded-full px-5 py-2.5 text-white font-semibold">Certificados</a>
+    </div>
+    <button id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="Abrir menú" class="md:hidden p-2 rounded-lg border border-white/10 text-slate-200">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+    </button>
+  </nav>
+  <div id="mobileMenu" class="hidden md:hidden glass border-t border-white/5 px-6 py-5 space-y-4 text-sm font-medium">
+    <a class="block hover:text-white" href="#resumen">Resumen</a>
+    <a class="block hover:text-white" href="#dia1">Día 1 · IA</a>
+    <a class="block hover:text-white" href="#dia2">Día 2 · Robótica</a>
+    <a class="block hover:text-white" href="#materiales">Materiales</a>
+    <a class="inline-block btn-primary rounded-full px-5 py-2.5 text-white font-semibold" href="https://drive.google.com/drive/folders/1nAHOsZHSKHEg5mvmA9DI1sCv0L_iSQeJ?usp=sharing" target="_blank" rel="noopener">Certificados</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section id="inicio" class="relative min-h-screen flex items-center pt-28 pb-20 overflow-hidden">
+  <!-- Foto de fondo difuminada -->
+  <div class="absolute inset-0" aria-hidden="true">
+    <img src="assets/galeria/dia2-manana/full/07.jpg" alt="" class="w-full h-full object-cover opacity-[.18] scale-110 blur-[2px]">
+    <div class="absolute inset-0 bg-gradient-to-b from-night/70 via-night/85 to-night"></div>
+  </div>
+  <div class="bg-grid absolute inset-0" aria-hidden="true"></div>
+  <div data-parallax="150" class="absolute -top-40 -right-40 w-[560px] h-[560px] rounded-full bg-sky-500/20 blur-3xl" aria-hidden="true"></div>
+  <div data-parallax="90"  class="absolute top-1/3 -left-48 w-[500px] h-[500px] rounded-full bg-purple-600/20 blur-3xl" aria-hidden="true"></div>
+
+  <div class="container mx-auto px-4 sm:px-6 grid lg:grid-cols-[1.05fr_.95fr] gap-14 items-center relative z-10">
+    <div>
+      <span class="hero-in inline-flex items-center gap-2 rounded-full border border-lime-400/30 bg-lime-400/10 px-4 py-1.5 text-[11px] sm:text-xs font-semibold tracking-wide text-lime-300">
+        <span class="w-2 h-2 rounded-full bg-neon-lime"></span>
+        MEMORIAS · GUAYAQUIL · 9–10 SEPTIEMBRE 2026
+      </span>
+      <h1 class="font-display font-extrabold text-white text-[2.6rem] sm:text-5xl md:text-6xl xl:text-[4.4rem] leading-[1.04] tracking-tight mt-6">
+        <span class="line block overflow-hidden"><span class="line-inner block">Lo que vivimos</span></span>
+        <span class="line block overflow-hidden"><span class="line-inner block">en el <span class="gradient-text">CITE²</span></span></span>
+        <span class="line block overflow-hidden"><span class="line-inner block">Guayaquil.</span></span>
+      </h1>
+      <p class="hero-in mt-6 text-base sm:text-lg text-slate-400 max-w-xl leading-relaxed">
+        <strong class="text-slate-200 font-semibold">Congreso Internacional de Tecnologías Emergentes y Disruptivas en la Educación.</strong>
+        Dos jornadas en la Universidad Católica de Santiago de Guayaquil dedicadas a la
+        <span class="text-sky-400">Inteligencia Artificial</span> y la <span class="text-fuchsia-400">Robótica Educativa</span>.
+        Aquí encontrarás las transmisiones, los resúmenes de cada ponencia y las fotos del encuentro.
+      </p>
+      <div class="hero-in mt-9 flex flex-wrap items-center gap-3 sm:gap-4">
+        <a href="#dia1" class="btn-primary inline-flex items-center gap-2 rounded-full px-7 py-4 text-white font-semibold">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+          Día 1 · IA
+        </a>
+        <a href="#dia2" class="btn-ghost inline-flex items-center gap-2 rounded-full px-7 py-4 font-semibold text-slate-200 border border-white/15 hover:border-sky-400/60 hover:bg-white/5">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="m21 15-5-5L5 21"/></svg>
+          Día 2 · Robótica
+        </a>
+      </div>
+      <div class="hero-in mt-8 flex flex-wrap gap-2.5 text-xs font-medium text-slate-400">
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">📍 UCSG · Guayaquil</span>
+        <span class="inline-flex items-center gap-2 rounded-full bg-white/5 border border-white/10 px-4 py-2">🎥 2 transmisiones oficiales</span>
+        <span class="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-sky-500/20 to-fuchsia-500/20 border border-white/10 px-4 py-2 text-slate-200">🚀 Agenda Educativa Digital 2026–2030</span>
+      </div>
+    </div>
+
+    <!-- Collage de fotos + Eugenia -->
+    <div id="heroVisual" class="relative h-[420px] sm:h-[500px] lg:h-[560px] max-w-[560px] w-full mx-auto">
+      <div class="absolute inset-10 rounded-full bg-gradient-to-tr from-sky-500/30 via-purple-500/25 to-fuchsia-500/30 blur-3xl" aria-hidden="true"></div>
+      <figure class="polaroid hero-photo w-[62%] aspect-[4/3] left-0 top-[4%] -rotate-6"><img src="assets/galeria/dia1-manana/thumb/02.jpg" alt="Auditorio de la UCSG lleno durante el Día 1"></figure>
+      <figure class="polaroid hero-photo w-[55%] aspect-[4/3] right-0 top-[18%] rotate-[5deg]"><img src="assets/galeria/dia2-tarde/thumb/03.jpg" alt="Docentes construyendo la Máquina de Goldberg"></figure>
+      <figure class="polaroid hero-photo w-[52%] aspect-[4/3] left-[6%] bottom-[4%] rotate-[3deg]"><img src="assets/galeria/dia1-tarde/thumb/03.jpg" alt="Taller de Inteligencia Artificial en laboratorio"></figure>
+      <img src="assets/eugenia.png" alt="Eugenia, mascota del Congreso CITE² 2026"
+           class="hero-mascot floaty absolute z-10 right-[2%] bottom-0 w-[38%] max-w-[210px] drop-shadow-[0_30px_60px_rgba(56,189,248,.45)] select-none pointer-events-none">
+      <span class="hero-chip absolute z-20 top-0 right-[6%] glass rounded-2xl px-4 py-2 text-xs font-bold text-sky-300 border border-sky-400/30">🤖 Día 1 · IA</span>
+      <span class="hero-chip absolute z-20 bottom-[38%] -left-1 glass rounded-2xl px-4 py-2 text-xs font-bold text-fuchsia-300 border border-fuchsia-400/30">⚙️ Día 2 · Robótica</span>
+    </div>
+  </div>
+  <a href="#resumen" class="no-print absolute bottom-6 left-1/2 -translate-x-1/2 text-slate-500 hover:text-sky-400 transition" aria-label="Bajar al resumen">
+    <svg width="22" height="30" viewBox="0 0 24 34" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="30" rx="10"/><path d="M12 9v6" stroke-linecap="round" class="animate-bounce"/></svg>
+  </a>
+</section>
+
+<!-- ══════════════════ MARQUESINA ══════════════════ -->
+<div class="marquee-wrap relative py-5 border-y border-white/5 bg-white/[.02] overflow-hidden" aria-hidden="true">
+  <div class="animate-marquee flex w-max">
+    <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
+      <span>MINEDEC</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span><span>CHILDFUND</span><span class="text-sky-500">✦</span><span>ESPE</span><span class="text-fuchsia-500">✦</span><span>UNAE</span><span class="text-sky-500">✦</span><span>UTEQ</span><span class="text-fuchsia-500">✦</span><span>OPENLAB</span><span class="text-sky-500">✦</span><span>ATENEA</span><span class="text-fuchsia-500">✦</span><span>CASA GRANDE</span><span class="text-sky-500">✦</span><span>CIETE</span><span class="text-fuchsia-500">✦</span>
+    </div>
+    <div class="flex items-center gap-12 pr-12 font-display font-bold text-sm tracking-[.25em] text-slate-500">
+      <span>MINEDEC</span><span class="text-sky-500">✦</span><span>UCSG</span><span class="text-fuchsia-500">✦</span><span>CHILDFUND</span><span class="text-sky-500">✦</span><span>ESPE</span><span class="text-fuchsia-500">✦</span><span>UNAE</span><span class="text-sky-500">✦</span><span>UTEQ</span><span class="text-fuchsia-500">✦</span><span>OPENLAB</span><span class="text-sky-500">✦</span><span>ATENEA</span><span class="text-fuchsia-500">✦</span><span>CASA GRANDE</span><span class="text-sky-500">✦</span><span>CIETE</span><span class="text-fuchsia-500">✦</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ RESUMEN ══════════════════ -->
+<section id="resumen" class="relative py-24 md:py-28 scroll-mt-20 overflow-hidden">
+  <div class="absolute inset-0 bg-grid opacity-60" aria-hidden="true"></div>
+  <div class="container mx-auto px-4 sm:px-6 relative">
+    <div class="max-w-2xl" data-reveal>
+      <p class="text-xs font-bold tracking-[.3em] text-sky-400 uppercase">Resumen estadístico</p>
+      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">El congreso <span class="gradient-text">en cifras</span></h2>
+      <p class="text-slate-400 mt-5">Conferencias magistrales, charlas educativas, lanzamientos institucionales y talleres prácticos de cierre en cada jornada.</p>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mt-12">
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="7">7</span></p>
+        <p class="mt-2 text-sm font-semibold text-sky-300">Conferencias magistrales</p>
+        <p class="text-xs text-slate-500 mt-1">3 en el Día 1 · 4 en el Día 2</p>
+      </div>
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="7">7</span></p>
+        <p class="mt-2 text-sm font-semibold text-fuchsia-300">Charlas educativas</p>
+        <p class="text-xs text-slate-500 mt-1">4 en el Día 1 · 3 en el Día 2</p>
+      </div>
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="2">2</span></p>
+        <p class="mt-2 text-sm font-semibold text-lime-300">Lanzamientos oficiales</p>
+        <p class="text-xs text-slate-500 mt-1">Guías Didácticas · CIETE‑CONCEPT</p>
+      </div>
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="2">2</span></p>
+        <p class="mt-2 text-sm font-semibold text-purple-300">Talleres prácticos</p>
+        <p class="text-xs text-slate-500 mt-1">IA en laboratorios · Máquina de Goldberg</p>
+      </div>
+    </div>
+
+    <!-- Ejes de cada día + lanzamientos -->
+    <div class="grid md:grid-cols-3 gap-5 mt-5">
+      <article class="card card-hover spot relative overflow-hidden rounded-3xl p-7" data-reveal>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-sky-400">Día 1 · 9 sept</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Inteligencia Artificial</h3>
+        <p class="text-sm text-slate-400 mt-3">Gobernanza, inclusión y protección digital: la agencia humana frente a los agentes virtuales, ética de la IA y seguridad de la niñez en línea.</p>
+        <div class="flex flex-wrap gap-2 mt-5 text-[11px] font-semibold">
+          <span class="rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25 px-3 py-1">Gobernanza</span>
+          <span class="rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25 px-3 py-1">Inclusión</span>
+          <span class="rounded-full bg-sky-400/10 text-sky-300 border border-sky-400/25 px-3 py-1">Protección digital</span>
+        </div>
+      </article>
+      <article class="card card-hover spot relative overflow-hidden rounded-3xl p-7" data-reveal>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-fuchsia-400">Día 2 · 10 sept</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Robótica Educativa</h3>
+        <p class="text-sm text-slate-400 mt-3">Metodologías STEAM+, inclusión y cultura maker: simuladores, robótica asistiva, prototipos para NEE y experiencias de aula.</p>
+        <div class="flex flex-wrap gap-2 mt-5 text-[11px] font-semibold">
+          <span class="rounded-full bg-fuchsia-400/10 text-fuchsia-300 border border-fuchsia-400/25 px-3 py-1">STEAM+</span>
+          <span class="rounded-full bg-fuchsia-400/10 text-fuchsia-300 border border-fuchsia-400/25 px-3 py-1">Cultura maker</span>
+          <span class="rounded-full bg-fuchsia-400/10 text-fuchsia-300 border border-fuchsia-400/25 px-3 py-1">Inclusión</span>
+        </div>
+      </article>
+      <article class="card card-hover spot relative overflow-hidden rounded-3xl p-7" data-reveal>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-lime-400">Lanzamientos oficiales</p>
+        <h3 class="font-display text-xl font-bold text-white mt-2">Guías & CIETE‑CONCEPT</h3>
+        <ul class="text-sm text-slate-400 mt-3 space-y-2.5">
+          <li class="flex gap-2"><span class="text-lime-400">◆</span><span><span class="text-lime-300">Guías Didácticas</span> para el desarrollo de competencias digitales en el aula (MINEDEC – ChildFund International).</span></li>
+          <li class="flex gap-2"><span class="text-lime-400">◆</span><span><span class="text-lime-300">CIETE‑CONCEPT</span> (MINEDEC – Universidad de las Fuerzas Armadas ESPE).</span></li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════ DÍAS (galería + video + intervenciones) ══════════════════ -->
+<div id="days"></div>
+
+<!-- ══════════════════ MATERIALES ══════════════════ -->
+<section id="materiales" class="relative py-24 md:py-28 scroll-mt-20">
+  <div class="container mx-auto px-4 sm:px-6">
+    <div class="relative overflow-hidden rounded-[2rem] border border-white/10 p-8 sm:p-12 md:p-16" data-reveal>
+      <img src="assets/galeria/dia2-manana/full/12.jpg" alt="" class="absolute inset-0 w-full h-full object-cover opacity-25" aria-hidden="true">
+      <div class="absolute inset-0 bg-gradient-to-br from-night via-night/90 to-indigo-950/80" aria-hidden="true"></div>
+      <div class="absolute -top-24 -right-24 w-80 h-80 rounded-full bg-fuchsia-500/25 blur-3xl" aria-hidden="true"></div>
+      <div class="relative grid md:grid-cols-[1fr_auto] gap-10 items-center">
+        <div>
+          <p class="text-xs font-bold tracking-[.3em] text-lime-400 uppercase">Materiales y certificados</p>
+          <h2 class="font-display font-extrabold text-white text-3xl sm:text-4xl md:text-5xl tracking-tight mt-4">Descarga las presentaciones y tu <span class="gradient-text">certificado de asistencia</span></h2>
+          <p class="text-slate-300 mt-5 max-w-2xl">Todo el material compartido por los ponentes y los certificados de asistencia están disponibles en la carpeta oficial del congreso.</p>
+        </div>
+        <div class="flex flex-col gap-3 sm:min-w-[260px]">
+          <a href="https://drive.google.com/drive/folders/1nAHOsZHSKHEg5mvmA9DI1sCv0L_iSQeJ?usp=sharing" target="_blank" rel="noopener"
+             class="btn-primary inline-flex items-center justify-center gap-2 rounded-full px-7 py-4 text-white font-semibold">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+            Abrir carpeta de descargas
+          </a>
+          <a href="https://www.youtube.com/watch?v=xhkJBf5n1Jc" target="_blank" rel="noopener" class="btn-ghost inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 font-semibold text-slate-200 border border-white/15 hover:border-sky-400/60 hover:bg-white/5">▶ Transmisión Día 1</a>
+          <a href="https://www.youtube.com/watch?v=fak_yxlPHUI" target="_blank" rel="noopener" class="btn-ghost inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 font-semibold text-slate-200 border border-white/15 hover:border-fuchsia-400/60 hover:bg-white/5">▶ Transmisión Día 2</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<!-- ══════════════════ FOOTER ══════════════════ -->
+<footer class="border-t border-white/5 py-12">
+  <div class="container mx-auto px-4 sm:px-6 flex flex-col md:flex-row gap-6 md:items-center justify-between text-sm">
+    <div>
+      <p class="font-display font-extrabold text-white text-lg">CITE<span class="gradient-text">²</span> 2026 · Memorias</p>
+      <p class="text-slate-500 mt-1">Congreso Internacional de Tecnologías Emergentes y Disruptivas en la Educación · Universidad Católica de Santiago de Guayaquil · 9 y 10 de septiembre de 2026</p>
+    </div>
+    <div class="flex items-center gap-4 text-slate-400">
+      <span>Ministerio de Educación del Ecuador</span>
+      <a href="#inicio" class="no-print rounded-full border border-white/10 px-4 py-2 hover:text-white hover:border-sky-400/50 transition">↑ Inicio</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ══════════════════ LIGHTBOX ══════════════════ -->
+<div id="lightbox" class="fixed inset-0 z-[80] bg-night/95 backdrop-blur-md flex flex-col" role="dialog" aria-modal="true" aria-labelledby="lbTitle" aria-hidden="true">
+  <div class="flex items-center justify-between gap-4 px-4 sm:px-6 h-16 shrink-0">
+    <div class="min-w-0">
+      <p id="lbTitle" class="font-display font-bold text-white truncate">Galería</p>
+      <p id="lbCounter" class="text-xs text-slate-400 tabular-nums">1 / 1</p>
+    </div>
+    <div class="flex items-center gap-2">
+      <a id="lbOpen" href="#" target="_blank" rel="noopener" class="hidden sm:inline-flex items-center gap-2 rounded-full border border-white/15 px-4 py-2 text-xs font-semibold text-slate-200 hover:border-sky-400/60">Abrir en tamaño completo</a>
+      <button id="lbClose" class="w-11 h-11 rounded-full border border-white/15 text-white flex items-center justify-center hover:border-sky-400/60" aria-label="Cerrar galería">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="relative flex-1 min-h-0 flex items-center justify-center px-3 sm:px-20">
+    <img id="lbImg" alt="" class="max-w-full max-h-full object-contain rounded-xl shadow-2xl shadow-black/60 select-none">
+    <button id="lbPrev" class="absolute left-2 sm:left-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass border border-white/15 text-white flex items-center justify-center hover:border-sky-400/60" aria-label="Foto anterior">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <button id="lbNext" class="absolute right-2 sm:right-5 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full glass border border-white/15 text-white flex items-center justify-center hover:border-sky-400/60" aria-label="Foto siguiente">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+    </button>
+  </div>
+  <div id="lbThumbs" class="lb-thumbs shrink-0 flex gap-2 overflow-x-auto px-4 sm:px-6 py-4 justify-start"></div>
+</div>
+
+<script>
+/* ═════════════ DATOS (del documento “Congreso GYE resumen”) ═════════════ */
+const TYPES = {
+  'Apertura y Bienvenida':   { cls:'bg-slate-400/10 text-slate-300 border-slate-400/25', dot:'#94a3b8' },
+  'Inauguración Oficial':    { cls:'bg-amber-400/10 text-amber-300 border-amber-400/30', dot:'#fbbf24' },
+  'Conferencia Magistral':   { cls:'bg-sky-400/10 text-sky-300 border-sky-400/30', dot:'#38bdf8' },
+  'Charla Educativa':        { cls:'bg-fuchsia-400/10 text-fuchsia-300 border-fuchsia-400/30', dot:'#f472b6' },
+  'Lanzamiento Oficial':     { cls:'bg-lime-400/10 text-lime-300 border-lime-400/30', dot:'#a3e635' },
+  'Taller Práctico (Tarde)': { cls:'bg-purple-400/10 text-purple-300 border-purple-400/30', dot:'#a855f7' },
+  'Actividad Práctica (Tarde)': { cls:'bg-purple-400/10 text-purple-300 border-purple-400/30', dot:'#a855f7' }
+};
+
+const DAYS = [
+  {
+    n:1, video:'xhkJBf5n1Jc', accent:'sky',
+    label:'Día 1', date:'Miércoles 9 de septiembre de 2026',
+    focus:'Inteligencia Artificial, Gobernanza, Inclusión y Protección Digital',
+    poster:'assets/galeria/dia1-manana/full/02.jpg',
+    items:[
+      { type:'Apertura y Bienvenida', who:'Fredy Gustavo Muñoz', av:['FM'], role:'Anfitrión / Maestro de Ceremonias',
+        title:'Saludo de bienvenida e introducción al primer día.', t:84,
+        sum:'Apertura del evento internacional, introducción de los ejes temáticos centrados en IA, protección digital e innovación educativa, y bienvenida a delegaciones y docentes participantes.' },
+      { type:'Inauguración Oficial', who:'Dr. José Luis Jouvin Martillo, PhD.', av:['JJ'], role:'Vicerrector Administrativo (UCSG)',
+        title:'Palabras de bienvenida e inauguración.', t:522,
+        sum:'Palabras institucionales de bienvenida en representación de la UCSG, destacando la trascendencia de la colaboración académica e institucional.' },
+      { type:'Inauguración Oficial', who:'Ing. Joan Sebastián Erazo García', av:['JE'], role:'Subsecretario para la Innovación Educativa y el Desarrollo Integral (MINEDEC)',
+        title:'Palabras inaugurales de apertura del Congreso.', t:925,
+        sum:'Inauguración formal del congreso a nombre del Ministerio de Educación (MINEDEC), enfatizando la transformación digital, equidad y reducción de la brecha digital.' },
+      { type:'Conferencia Magistral', who:'Gabriel Brito, PhD.', av:['Brito'], role:'Investigador (Univ. de Oxford / Univ. Casa Grande)',
+        title:'Delegando el aprendizaje a la máquina: Educar la agencia humana en tiempos de agentes virtuales', t:1871,
+        sum:'Análisis crítico sobre el rol docente y la necesidad de preservar y fortalecer la autonomía y agencia de los estudiantes ante agentes virtuales de IA.' },
+      { type:'Conferencia Magistral', who:'Dr. Diego Apolo Bueñano', av:['Diego'], role:'Docente Investigador (UNAE) / TEDx Speaker',
+        title:'La paradoja de la IA: El talento que ninguna máquina podrá copiar', t:5549,
+        sum:'Exposición centrada en resaltar las capacidades intrínsecamente humanas (empatía, creatividad, ética e intuición pedagógica) frente a los avances algorítmicos.' },
+      { type:'Conferencia Magistral', who:'Ing. Galo Cornejo Gómez, Mgs.', av:['Cornejo'], role:'Director de Carrera de Ciencia de Datos e IA (UCSG)',
+        title:'Más allá de los algoritmos: Gobernanza, Alineación Curricular y Ética de la IA en la Educación Ecuatoriana', t:9211,
+        sum:'Propuesta marco sobre la estructuración curricular, ética del uso de datos en instituciones educativas y gobernanza de la IA en la educación.' },
+      { type:'Charla Educativa', who:'Ing. Alexandra Verdugo Cabrera', av:['VerdugoCabrera'], role:'Docente Investigadora (ESPE)',
+        title:'Antes de los robots (La IA no reemplaza docentes, potencia el aprendizaje)', t:13451,
+        sum:'Reflexión pedagógica sobre habilidades lógicas básicas y socioemocionales; enfatiza que la IA potencia al docente sin reemplazarlo.' },
+      { type:'Charla Educativa', who:'Mgs. Grace Patricia Vásquez Paredes', av:['Vasquez'], role:'Especialista en Abogacía y Protección (ChildFund International)',
+        title:'Naveguemos Seguros / Protección de la Niñez en entornos digitales', t:14288,
+        sum:'Presentación sobre la urgencia de entornos digitales seguros, prevención de riesgos cibernéticos y protección de la niñez.' },
+      { type:'Charla Educativa', who:'Mgs. Christian Guayasamín', av:['Guayasamin'], role:'Coordinador de Producción y Operaciones (Fundación Openlab - Ecuador)',
+        title:'Pensamiento Computacional e IA', t:16079,
+        sum:'Estrategias metodológicas para integrar la resolución de problemas, descomposición algorítmica y pensamiento lógico.' },
+      { type:'Charla Educativa', who:'Mgs. Marcos Rafael Salas Acosta', av:['Salas'], role:'Rector (Colegio Fiscal Técnico Industrial Febres Cordero)',
+        title:'La IA como herramienta en la gestión administrativa', t:0, link:'https://www.youtube.com/live/xhkJBf5n1Jc?si=TWCR-mzXPfSnrn-6',
+        sum:'Aplicación práctica de herramientas de automatización e IA en la optimización de procesos directivos y gestión administrativa.' },
+      { type:'Taller Práctico (Tarde)', who:'Varios Facilitadores', av:['IA'], role:'Asignados según tarjeta/laboratorio (UCSG)',
+        title:'Talleres prácticos sobre Inteligencia Artificial en laboratorios.', t:null, gallery:'dia1-tarde',
+        sum:'Sesiones dinámicas de aplicación técnica en laboratorios sobre herramientas e implementación práctica de IA.' }
+    ]
+  },
+  {
+    n:2, video:'fak_yxlPHUI', accent:'fuchsia',
+    label:'Día 2', date:'Jueves 10 de septiembre de 2026',
+    focus:'Robótica Educativa, Metodologías STEAM+, Inclusión y Cultura Maker',
+    poster:'assets/galeria/dia2-manana/full/02.jpg',
+    items:[
+      { type:'Apertura y Bienvenida', who:'Fredy Gustavo Muñoz', av:['FM'], role:'Anfitrión / Maestro de Ceremonias',
+        title:'Saludo inicial e introducción al enfoque en Robótica Educativa.', t:1041,
+        sum:'Saludo inicial e introducción a la temática central del día enfocado en robótica educativa, enfoque STEAM+, inclusión y cultura maker.' },
+      { type:'Conferencia Magistral', who:'Equipo de la Dirección de Tecnologías para la Educación', av:['DTE'], role:'Dirección de Tecnologías para la Educación (MINEDEC)',
+        title:'Construyendo Ecosistemas de Aprendizaje... Más allá de la conectividad', t:1209,
+        sum:'Presentación en primicia de los 5 ejes de la nueva Agenda Educativa Digital 2026-2030 (conectividad, competencias, recursos abiertos, comunidades e innovación).' },
+      { type:'Conferencia Magistral', who:'Dr. Marcos Chacón Castro, PhD.', av:['Chacon'], role:'Investigador y Docente de Posgrado',
+        title:'Simuladores Educativos y metodologías activas: Entornos de experimentación para el aprendizaje en robótica educativa', t:2263,
+        sum:'Exposición sobre el uso de simuladores interactivos (PhET, GeoGebra, Tinkercad, Claude AI) para experimentar robótica y física sin riesgo.' },
+      { type:'Conferencia Magistral', who:'Wellington Villota Oyarvide, PhD.', av:['Villota'], role:'Docente Investigador (UCSG)',
+        title:'Robótica socialmente asistida e IA adaptativa: personalización e inclusión en el aula', t:5496,
+        sum:'Análisis del impacto de la robótica asistiva (Pepper/Nao) e IA adaptativa en la atención personalizada para estudiantes neurodivergentes o con TEA.' },
+      { type:'Conferencia Magistral', who:'Lcdo. Juan Sebastián Villalba Berrezueta', av:['Villalba'], role:'Especialista en Pedagogía Técnica de la Mecatrónica (Atenea Ediciones Educativas)',
+        title:'Robótica educativa: de consumidores a creadores de tecnología mediante el aprendizaje STEAM', t:7578,
+        sum:'Propuesta didáctica para transicionar de consumidores pasivos a creadores de tecnología mediante aprendizaje basado en problemas y STEAM.' },
+      { type:'Lanzamiento Oficial', who:'Ing. Joan Sebastián Erazo García & Mgs. Grace Vásquez', av:['JE','Vasquez'], role:'Subsecretario de Innovación Educativa (MINEDEC) & ChildFund International',
+        title:'Lanzamiento de las Guías Didácticas para el desarrollo de competencias digitales en el aula', t:11052,
+        sum:'Presentación de las nuevas Guías Didácticas para el desarrollo de competencias digitales en el aula.' },
+      { type:'Charla Educativa', who:'Ing. Hernán Vinicio Lara Padilla, PhD.', av:['Lara'], role:'Jefe del laboratorio CONCEPTS (ESPE)',
+        title:'¿Por qué llevamos 2.500 años construyendo robots?', t:12919,
+        sum:'Recorrido histórico por el pensamiento científico y mitológico sobre los autómatas (desde Talos hasta Turing) para motivar la creatividad y alfabetización en IA.' },
+      { type:'Charla Educativa', who:'Ing. Abigail Mora Reinado', av:['Mora'], role:'Docente (Universidad Técnica Estatal de Quevedo)',
+        title:'Robótica educativa sin barreras: aceptación y apoyo al aprendizaje en niños con necesidades educativas especiales', t:13933,
+        sum:'Presentación del prototipo “Alec”, un robot adaptativo impulsado por IA generativa para niños con necesidades educativas especiales.' },
+      { type:'Charla Educativa', who:'Lcda. Yanina González con estudiantes: Jonathan Márquez, Dylan Andrade y Anderson Castro', av:['Gonzalez'], role:'Escuela de Educación Básica Fiscal Eduardo Kingman (Sector Monte Sinaí)',
+        title:'Sistema de riego automático inteligente para cultivos hidropónicos', t:14696,
+        sum:'Experiencia pedagógica del Club de Robótica EK en Monte Sinaí sobre un sistema de riego automático inteligente para cultivos hidropónicos.' },
+      { type:'Lanzamiento Oficial', who:'Lcdo. Hamilton Cabrera, Mgs. & Ing. Hernán Lara Padilla, PhD.', av:['HC','Lara'], role:'CIETE (MINEDEC) & Laboratorio CONCEPTS (ESPE)',
+        title:'Lanzamiento del CIETE-CONCEPT (Centro de Innovación y Experimentación de Tecnología Educativa - ESPE)', t:15737,
+        sum:'Presentación de la alianza estratégica entre MINEDEC y el laboratorio CONCEPTS de la ESPE (CIETE-CONCEPT) para transferencia tecnológica.' },
+      { type:'Actividad Práctica (Tarde)', who:'Facilitadores y Equipos participantes', av:['⚙'], role:'Plaza CATAR (UCSG)',
+        title:'Taller Práctico: Desafío y construcción de la Máquina de Goldberg', t:null, gallery:'dia2-tarde',
+        sum:'Construcción práctica de la Máquina de Goldberg para estimular el trabajo en equipo y la física aplicada.' }
+    ]
+  }
+];
+
+const GALLERIES = [
+  { id:'dia1-manana', n:14, num:'01', day:'Día 1 · Mañana', date:'9 sep', accent:'sky', cover:2,
+    title:'Inauguración y conferencias magistrales',
+    desc:'Auditorio de la UCSG, autoridades, ponentes y la feria de proyectos educativos.' },
+  { id:'dia1-tarde', n:12, num:'02', day:'Día 1 · Tarde', date:'9 sep', accent:'purple', cover:3,
+    title:'Talleres de Inteligencia Artificial',
+    desc:'Sesiones prácticas en los laboratorios de computación con docentes de todo el país.' },
+  { id:'dia2-manana', n:14, num:'03', day:'Día 2 · Mañana', date:'10 sep', accent:'fuchsia', cover:7,
+    title:'Robótica educativa y lanzamientos',
+    desc:'Conferencias de robótica, experiencias de aula y lanzamiento del CIETE‑CONCEPT.' },
+  { id:'dia2-tarde', n:14, num:'04', day:'Día 2 · Tarde', date:'10 sep', accent:'lime', cover:3,
+    title:'Desafío Máquina de Goldberg',
+    desc:'Equipos de docentes construyendo la Máquina de Goldberg en la Plaza CATAR.' }
+];
+
+const ACC = {
+  sky:{ text:'text-sky-400', soft:'text-sky-300', border:'hover:border-sky-400/60', chip:'bg-sky-400/10 text-sky-300 border-sky-400/30' },
+  purple:{ text:'text-purple-400', soft:'text-purple-300', border:'hover:border-purple-400/60', chip:'bg-purple-400/10 text-purple-300 border-purple-400/30' },
+  fuchsia:{ text:'text-fuchsia-400', soft:'text-fuchsia-300', border:'hover:border-fuchsia-400/60', chip:'bg-fuchsia-400/10 text-fuchsia-300 border-fuchsia-400/30' },
+  lime:{ text:'text-lime-400', soft:'text-lime-300', border:'hover:border-lime-400/60', chip:'bg-lime-400/10 text-lime-300 border-lime-400/30' }
+};
+
+/* ═════════════ UTILIDADES ═════════════ */
+const pad = n => String(n).padStart(2,'0');
+const fmtTime = s => { const h=Math.floor(s/3600), m=Math.floor(s%3600/60), x=s%60; return (h? h+':'+pad(m) : m)+':'+pad(x); };
+const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const ytLink = (id,t) => 'https://www.youtube.com/watch?v='+id+(t? '&t='+t+'s' : '');
+
+function avatar(a, i){
+  const ring = i ? ' -ml-4' : '';
+  if (/^[A-Z][a-zA-Z]+$/.test(a) && a.length > 3)
+    return `<img src="assets/optimizado/${a}.jpg" alt="" loading="lazy" class="talk-avatar relative${ring}" style="z-index:${5-i}">`;
+  return `<span class="talk-avatar relative${ring} inline-flex items-center justify-center font-display font-extrabold text-sm text-white bg-gradient-to-br from-sky-500/30 to-fuchsia-500/30" style="z-index:${5-i}">${a}</span>`;
+}
+
+/* ═════════════ DÍAS ═════════════ */
+const photos = g => Array.from({length:g.n}, (_,i) => ({
+  thumb:`assets/galeria/${g.id}/thumb/${pad(i+1)}.jpg`, full:`assets/galeria/${g.id}/full/${pad(i+1)}.jpg`
+}));
+
+function talkCard(d, it){
+  const a = d.accent, ty = TYPES[it.type];
+  const action = it.t
+    ? `<a href="${ytLink(d.video,it.t)}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white bg-white/5 border border-white/15 ${ACC[a].border} hover:bg-white/10 transition">
+         <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+         Ver desde ${fmtTime(it.t)} ↗</a>`
+    : `<a href="${it.link}" target="_blank" rel="noopener" class="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white bg-white/5 border border-white/15 ${ACC[a].border} transition">▶ Ver en YouTube ↗</a>`;
+  return `
+  <article class="talk card card-hover spot overflow-hidden rounded-3xl p-5 sm:p-6" style="--dot:${ty.dot}">
+    <div class="flex items-start gap-3.5">
+      <div class="flex shrink-0">${it.av.map(avatar).join('')}</div>
+      <div class="min-w-0 flex-1">
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="text-[10px] font-bold tracking-widest uppercase rounded-full border px-2.5 py-1 ${ty.cls}">${it.type}</span>
+          ${it.t ? `<span class="text-[11px] font-semibold text-slate-500 tabular-nums">⏱ ${fmtTime(it.t)}</span>` : ''}
+        </div>
+        <h4 class="font-display font-bold text-white text-[15px] mt-2 leading-snug">${esc(it.who)}</h4>
+        <p class="text-[11px] text-slate-500 mt-0.5 leading-snug">${esc(it.role)}</p>
+      </div>
+    </div>
+    <p class="font-display font-semibold text-slate-200 mt-4 leading-snug">“${esc(it.title.replace(/\.$/,''))}”</p>
+    <p class="text-sm text-slate-400 mt-2 leading-relaxed">${esc(it.sum)}</p>
+    <div class="mt-auto pt-4">${action}</div>
+  </article>`;
+}
+
+function videoCard(d){
+  const a = d.accent;
+  return `
+  <a href="${ytLink(d.video)}" target="_blank" rel="noopener"
+     class="group card card-hover relative flex flex-col overflow-hidden rounded-3xl md:row-span-2 min-h-[420px]" aria-label="Ver la transmisión completa del ${d.label} en YouTube">
+    <div class="relative flex-1 min-h-[220px]">
+      <img src="${d.poster}" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-75 group-hover:opacity-95 group-hover:scale-105 transition duration-1000">
+      <span class="absolute inset-0 bg-gradient-to-t from-[#0a0c1c] via-[#0a0c1c]/30 to-transparent"></span>
+      <span class="absolute inset-0 flex items-center justify-center">
+        <span class="w-20 h-20 rounded-full btn-primary flex items-center justify-center group-hover:scale-110 transition">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="#fff"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5z"/></svg>
+        </span>
+      </span>
+      <span class="absolute top-4 left-4 inline-flex items-center gap-2 glass rounded-full px-3 py-1.5 text-[11px] font-bold text-white border border-white/10">
+        <span class="w-2 h-2 rounded-full bg-red-500"></span> YouTube · Transmisión oficial</span>
+    </div>
+    <div class="relative p-6">
+      <p class="text-[11px] font-bold tracking-[.25em] uppercase ${ACC[a].text}">${d.label} completo</p>
+      <h4 class="font-display font-extrabold text-white text-2xl mt-2 leading-tight">Mira la jornada completa</h4>
+      <p class="text-sm text-slate-400 mt-2">${d.date} · Universidad Católica de Santiago de Guayaquil</p>
+      <span class="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-white group-hover:underline underline-offset-4">Abrir en YouTube ↗</span>
+    </div>
+  </a>`;
+}
+
+function carousel(gi){
+  const g = GALLERIES[gi], a = ACC[g.accent];
+  return `
+  <div class="carousel relative mt-8" data-carousel="${gi}" aria-roledescription="carrusel" aria-label="${g.title}">
+    <div class="track" tabindex="0">
+      ${photos(g).map((p,i) => `
+        <button type="button" class="slide" data-open="${gi}" data-i="${i}" aria-label="Foto ${i+1} de ${g.n}: ${g.title}. Abrir en grande">
+          <img src="${p.thumb}" srcset="${p.thumb} 960w, ${p.full} 1920w" sizes="(min-width:1024px) 58vw, (min-width:640px) 72vw, 86vw"
+               alt="${g.title} — foto ${i+1}" loading="${i<2?'eager':'lazy'}" decoding="async">
+          <span class="zoom glass rounded-full w-10 h-10 flex items-center justify-center border border-white/15 text-white">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5M11 8v6M8 11h6"/></svg>
+          </span>
+        </button>`).join('')}
+    </div>
+    <div class="container mx-auto px-4 sm:px-6 mt-5 flex items-center justify-between gap-4">
+      <div class="dots flex items-center gap-1.5 flex-wrap" role="tablist" aria-label="Elegir foto">
+        ${photos(g).map((_,i) => `<button type="button" data-dot="${i}" aria-label="Ir a la foto ${i+1}"></button>`).join('')}
+      </div>
+      <div class="flex items-center gap-3 shrink-0">
+        <span class="counter text-xs font-semibold text-slate-400 tabular-nums">1 / ${g.n}</span>
+        <button type="button" class="car-btn glass" data-dir="-1" aria-label="Foto anterior">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+        <button type="button" class="car-btn glass" data-dir="1" aria-label="Foto siguiente">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function halfHeader(g, extra=''){
+  const a = ACC[g.accent];
+  return `
+  <div class="container mx-auto px-4 sm:px-6" data-reveal>
+    <p class="half-label text-[11px] font-bold tracking-[.25em] uppercase ${a.text}">${g.day} · ${g.date}</p>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-3 mt-3">
+      <h3 class="font-display font-extrabold text-white text-3xl md:text-4xl tracking-tight">${g.title}</h3>
+      <p class="text-sm text-slate-500">📷 ${g.n} fotos · toca una para ampliarla</p>
+    </div>
+    <p class="text-slate-400 mt-3 max-w-3xl">${g.desc}</p>
+    ${extra}
+  </div>`;
+}
+
+function renderDays(){
+  document.getElementById('days').innerHTML = DAYS.map((d,di) => {
+    const a = ACC[d.accent];
+    const talks = d.items.filter(it => !it.gallery);
+    const workshop = d.items.find(it => it.gallery);
+    const gm = di*2, gt = di*2+1;
+    const ws = workshop ? `
+      <div class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm">
+        <span class="text-[10px] font-bold tracking-widest uppercase rounded-full border px-2.5 py-1 ${TYPES[workshop.type].cls}">${workshop.type}</span>
+        <span class="text-slate-300 font-semibold">${esc(workshop.title.replace(/\.$/,''))}</span>
+        <span class="text-slate-500">· ${esc(workshop.who)} · ${esc(workshop.role)}</span>
+      </div>` : '';
+    return `
+<section id="dia${d.n}" class="relative py-24 md:py-28 scroll-mt-16 overflow-hidden">
+  <div class="absolute inset-0 bg-grid opacity-40" aria-hidden="true"></div>
+  <div data-parallax="120" class="absolute top-40 ${di? '-right-40 bg-fuchsia-500/15':'-left-40 bg-sky-500/15'} w-[460px] h-[460px] rounded-full blur-3xl" aria-hidden="true"></div>
+
+  <div class="relative">
+    <!-- Encabezado del día -->
+    <div class="container mx-auto px-4 sm:px-6 mb-16" data-reveal>
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div class="max-w-3xl">
+          <p class="text-xs font-bold tracking-[.3em] uppercase ${a.text}">${d.label} · ${d.date}</p>
+          <h2 class="font-display font-extrabold text-white text-4xl md:text-6xl tracking-tight mt-4">${d.n===1 ? 'Inteligencia <span class="gradient-text">Artificial</span>' : 'Robótica <span class="gradient-text">Educativa</span>'}</h2>
+          <p class="text-slate-400 mt-4 text-lg">${d.focus}</p>
+        </div>
+        <div class="flex flex-wrap gap-2 text-[11px] font-semibold">
+          <span class="rounded-full border px-3 py-1.5 ${a.chip}">${talks.filter(i=>i.type==='Conferencia Magistral').length} magistrales</span>
+          <span class="rounded-full border px-3 py-1.5 ${a.chip}">${talks.filter(i=>i.type==='Charla Educativa').length} charlas</span>
+          ${talks.some(i=>i.type==='Lanzamiento Oficial') ? `<span class="rounded-full border px-3 py-1.5 ${a.chip}">${talks.filter(i=>i.type==='Lanzamiento Oficial').length} lanzamientos</span>` : ''}
+          <span class="rounded-full border px-3 py-1.5 ${a.chip}">1 taller práctico</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mañana: galería -->
+    ${halfHeader(GALLERIES[gm])}
+    ${carousel(gm)}
+
+    <!-- Mañana: video + intervenciones -->
+    <div class="container mx-auto px-4 sm:px-6 mt-14">
+      <div class="grid md:grid-cols-2 gap-5 items-stretch">
+        ${videoCard(d)}
+        ${talks.map(it => talkCard(d,it)).join('')}
+      </div>
+    </div>
+
+    <!-- Tarde: galería de talleres -->
+    <div class="mt-24">
+      ${halfHeader(GALLERIES[gt], ws)}
+      ${carousel(gt)}
+    </div>
+  </div>
+</section>`;
+  }).join('');
+}
+
+/* ═════════════ CARRUSELES ═════════════ */
+function setupCarousels(){
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('[data-carousel]').forEach(car => {
+    const track = car.querySelector('.track'), slides = [...track.children];
+    const dots = [...car.querySelectorAll('[data-dot]')], counter = car.querySelector('.counter');
+    let cur = 0, timer = null, userTouched = false, visible = false;
+
+    const go = i => {
+      i = (i + slides.length) % slides.length;
+      const s = slides[i];
+      track.scrollTo({ left: s.offsetLeft - (track.clientWidth - s.clientWidth)/2, behavior: reduce ? 'auto' : 'smooth' });
+    };
+    const mark = () => {
+      const c = track.scrollLeft + track.clientWidth/2;
+      let best = 0, dist = Infinity;
+      slides.forEach((s,k) => { const dd = Math.abs(s.offsetLeft + s.clientWidth/2 - c); if (dd < dist){ dist = dd; best = k; } });
+      if (best === cur && slides[best].classList.contains('is-active')) return;
+      cur = best;
+      slides.forEach((s,k) => { s.classList.toggle('is-active', k===cur); s.tabIndex = k===cur ? 0 : -1; });
+      dots.forEach((b,k) => { b.classList.toggle('is-current', k===cur); b.setAttribute('aria-selected', k===cur); });
+      counter.textContent = `${cur+1} / ${slides.length}`;
+    };
+    let raf; track.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(mark); }, { passive:true });
+    mark();
+
+    const stop = () => { userTouched = true; clearInterval(timer); };
+    car.querySelectorAll('[data-dir]').forEach(b => b.addEventListener('click', () => { stop(); go(cur + +b.dataset.dir); }));
+    dots.forEach((b,k) => b.addEventListener('click', () => { stop(); go(k); }));
+    track.addEventListener('keydown', e => {
+      if (e.key === 'ArrowRight'){ stop(); go(cur+1); e.preventDefault(); }
+      if (e.key === 'ArrowLeft'){ stop(); go(cur-1); e.preventDefault(); }
+    });
+    ['pointerdown','wheel','touchstart'].forEach(ev => track.addEventListener(ev, stop, { passive:true }));
+    // Si se toca una foto lateral, primero centrarla en vez de abrir el visor
+    track.addEventListener('click', e => {
+      const s = e.target.closest('.slide'); if (!s) return;
+      if (!s.classList.contains('is-active')){ e.stopPropagation(); go(slides.indexOf(s)); }
+    }, true);
+
+    // Avance automático suave solo mientras el carrusel está visible y sin interacción
+    if (!reduce){
+      new IntersectionObserver(([en]) => {
+        visible = en.isIntersecting; clearInterval(timer);
+        if (visible && !userTouched) timer = setInterval(() => { if (!car.matches(':hover') && !lb.classList.contains('open')) go(cur+1); }, 4500);
+      }, { threshold:.5 }).observe(car);
+    }
+    addEventListener('resize', () => go(cur));
+  });
+}
+
+/* ═════════════ LIGHTBOX ═════════════ */
+const LB = { g:0, i:0, lastFocus:null };
+const lb = document.getElementById('lightbox'), lbImg = document.getElementById('lbImg');
+
+function lbShow(){
+  const g = GALLERIES[LB.g], list = photos(g), p = list[LB.i];
+  lbImg.classList.add('loading');
+  const img = new Image();
+  img.onload = () => { lbImg.src = p.full; lbImg.classList.remove('loading'); };
+  img.src = p.full;
+  lbImg.alt = `${g.title} — foto ${LB.i+1} de ${g.n}`;
+  document.getElementById('lbTitle').textContent = `Galería ${g.num} · ${g.title}`;
+  document.getElementById('lbCounter').textContent = `${g.day} · ${LB.i+1} / ${g.n}`;
+  document.getElementById('lbOpen').href = p.full;
+  document.querySelectorAll('.lb-thumb').forEach((t,k) => {
+    t.classList.toggle('is-current', k === LB.i);
+    if (k === LB.i) t.scrollIntoView({ block:'nearest', inline:'center', behavior:'smooth' });
+  });
+  // precarga vecinas
+  [LB.i+1, LB.i-1].forEach(k => { const q = list[(k+g.n)%g.n]; new Image().src = q.full; });
+}
+function lbOpen(g, i){
+  LB.g = g; LB.i = i; LB.lastFocus = document.activeElement;
+  const gal = GALLERIES[g];
+  document.getElementById('lbThumbs').innerHTML = photos(gal).map((p,k) =>
+    `<button type="button" class="lb-thumb shrink-0 w-20 h-14 rounded-lg overflow-hidden" data-k="${k}" aria-label="Ir a la foto ${k+1}"><img src="${p.thumb}" alt="" class="w-full h-full object-cover"></button>`).join('');
+  lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+  document.body.style.overflow = 'hidden';
+  lbShow();
+  document.getElementById('lbClose').focus();
+}
+function lbClose(){
+  lb.classList.remove('open'); lb.setAttribute('aria-hidden','true');
+  document.body.style.overflow = '';
+  if (LB.lastFocus) LB.lastFocus.focus();
+}
+const lbStep = d => { const n = GALLERIES[LB.g].n; LB.i = (LB.i + d + n) % n; lbShow(); };
+
+function setupLightbox(){
+  document.getElementById('days').addEventListener('click', e => {
+    const b = e.target.closest('[data-open]'); if (b) lbOpen(+b.dataset.open, +b.dataset.i);
+  });
+  document.getElementById('lbClose').onclick = lbClose;
+  document.getElementById('lbPrev').onclick = () => lbStep(-1);
+  document.getElementById('lbNext').onclick = () => lbStep(1);
+  document.getElementById('lbThumbs').addEventListener('click', e => {
+    const t = e.target.closest('[data-k]'); if (t){ LB.i = +t.dataset.k; lbShow(); }
+  });
+  lb.addEventListener('click', e => { if (e.target === lb || e.target.parentElement === lb && e.target.classList.contains('flex-1')) lbClose(); });
+  document.addEventListener('keydown', e => {
+    if (!lb.classList.contains('open')) return;
+    if (e.key === 'Escape') lbClose();
+    else if (e.key === 'ArrowRight') lbStep(1);
+    else if (e.key === 'ArrowLeft') lbStep(-1);
+    else if (e.key === 'Tab'){ // mantener el foco dentro del diálogo
+      const f = [...lb.querySelectorAll('button, a[href]')].filter(x => x.offsetParent);
+      const first = f[0], last = f[f.length-1];
+      if (e.shiftKey && document.activeElement === first){ last.focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === last){ first.focus(); e.preventDefault(); }
+    }
+  });
+  let x0 = null;
+  lbImg.parentElement.addEventListener('touchstart', e => { x0 = e.touches[0].clientX; }, { passive:true });
+  lbImg.parentElement.addEventListener('touchend', e => {
+    if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 45) lbStep(dx < 0 ? 1 : -1);
+  });
+}
+
+/* ═════════════ NAV ═════════════ */
+function setupNav(){
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('nav-scrolled', scrollY > 30);
+  onScroll(); addEventListener('scroll', onScroll, { passive:true });
+
+  const btn = document.getElementById('menuBtn'), menu = document.getElementById('mobileMenu');
+  btn.onclick = () => { const open = menu.classList.toggle('hidden') === false; btn.setAttribute('aria-expanded', open); };
+  menu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => { menu.classList.add('hidden'); btn.setAttribute('aria-expanded', false); }));
+
+  const links = [...document.querySelectorAll('.nav-link')];
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    if (en.isIntersecting) links.forEach(l => l.classList.toggle('is-active', l.getAttribute('href') === '#'+en.target.id));
+  }), { rootMargin:'-45% 0px -50% 0px' });
+  ['resumen','dia1','dia2','materiales'].forEach(id => io.observe(document.getElementById(id)));
+
+  document.querySelectorAll('.spot').forEach(el => el.addEventListener('pointermove', e => {
+    const r = el.getBoundingClientRect();
+    el.style.setProperty('--mx', (e.clientX - r.left)+'px'); el.style.setProperty('--my', (e.clientY - r.top)+'px');
+  }));
+}
+
+/* ═════════════ ANIMACIONES ═════════════ */
+function setupMotion(){
+  if (!window.gsap || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  gsap.registerPlugin(ScrollTrigger);
+  const tl = gsap.timeline({ defaults:{ ease:'power3.out' } });
+  tl.from('.line-inner', { yPercent:110, duration:1, stagger:.12 })
+    .from('.hero-in', { y:24, opacity:0, duration:.8, stagger:.1 }, '-=.6')
+    .from('.hero-photo', { y:60, opacity:0, rotate:0, duration:1, stagger:.12 }, '-=1')
+    .from('.hero-mascot', { y:80, opacity:0, duration:1 }, '-=.7')
+    .from('.hero-chip', { scale:.6, opacity:0, duration:.6, stagger:.1, ease:'back.out(2)' }, '-=.5');
+
+  document.querySelectorAll('[data-parallax]').forEach(el => gsap.to(el, {
+    y: +el.dataset.parallax, ease:'none', scrollTrigger:{ trigger:el.parentElement, start:'top bottom', end:'bottom top', scrub:true }
+  }));
+
+  ScrollTrigger.batch('[data-reveal]', { start:'top 88%', once:true,
+    onEnter: b => gsap.from(b, { y:36, opacity:0, duration:.9, stagger:.08, ease:'power3.out' }) });
+  ScrollTrigger.batch('.talk, .md\\:row-span-2', { start:'top 92%', once:true,
+    onEnter: b => gsap.from(b, { y:30, opacity:0, duration:.7, stagger:.07, ease:'power3.out', clearProps:'transform' }) });
+  ScrollTrigger.batch('.carousel', { start:'top 90%', once:true,
+    onEnter: b => gsap.from(b, { x:80, opacity:0, duration:1.1, ease:'power3.out' }) });
+
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const o = { v:0 };
+    gsap.to(o, { v:+el.dataset.count, duration:1.6, ease:'power2.out', snap:{ v:1 },
+      scrollTrigger:{ trigger:el, start:'top 90%', once:true }, onUpdate:() => el.textContent = o.v });
+  });
+}
+
+renderDays();
+setupCarousels(); setupLightbox(); setupNav(); setupMotion();
+// Las secciones de los días se generan por JS: respetar un #dia1 / #dia2 en la URL
+const jumpToHash = () => { const t = location.hash && document.querySelector(location.hash);
+  if (t) scrollTo({ top: t.getBoundingClientRect().top + scrollY, behavior:'instant' }); };
+if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+jumpToHash(); addEventListener('load', () => setTimeout(jumpToHash, 150));
+</script>
+</body>
+</html>
