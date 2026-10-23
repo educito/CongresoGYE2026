@@ -250,32 +250,53 @@
 <section id="resumen" class="relative py-24 md:py-28 scroll-mt-20 overflow-hidden">
   <div class="absolute inset-0 bg-grid opacity-60" aria-hidden="true"></div>
   <div class="container mx-auto px-4 sm:px-6 relative">
-    <div class="max-w-2xl" data-reveal>
-      <p class="text-xs font-bold tracking-[.3em] text-sky-400 uppercase">Resumen estadístico</p>
-      <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">El congreso <span class="gradient-text">en cifras</span></h2>
-      <p class="text-slate-400 mt-5">Conferencias magistrales, charlas educativas, lanzamientos institucionales y 10 talleres de Inteligencia Artificial y un hackathon comunitario de robótica educativa.</p>
+    <div class="grid lg:grid-cols-[1fr_1.15fr] gap-8 lg:gap-14 items-end" data-reveal>
+      <div>
+        <p class="text-xs font-bold tracking-[.3em] text-sky-400 uppercase">Resumen del congreso</p>
+        <h2 class="font-display font-extrabold text-white text-4xl md:text-5xl tracking-tight mt-4">El congreso <span class="gradient-text">en cifras</span></h2>
+      </div>
+      <div class="space-y-4 text-slate-400 leading-relaxed">
+        <p>El <strong class="text-slate-200 font-semibold">III Congreso Internacional de Tecnologías Disruptivas y Emergentes en Educación</strong>, desarrollado los días 9 y 10 de septiembre de 2026 en la Universidad Católica de Santiago de Guayaquil, constituyó un espacio de intercambio de conocimientos y experiencias sobre la incorporación <span class="text-sky-300">pedagógica, ética y responsable</span> de las tecnologías en la educación.</p>
+        <p>Sus actividades fortalecieron las <span class="text-fuchsia-300">competencias tecnopedagógicas</span> de docentes, estudiantes universitarios y actores educativos.</p>
+      </div>
     </div>
 
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mt-12">
+    <!-- Alcance -->
+    <div class="grid sm:grid-cols-2 gap-4 md:gap-5 mt-12">
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-7 md:p-9" data-reveal>
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-sky-500/20 blur-3xl" aria-hidden="true"></div>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-sky-400">Participación presencial</p>
+        <p class="font-display font-extrabold text-6xl md:text-7xl text-white tabular-nums mt-3">≈<span data-count="355">355</span></p>
+        <p class="mt-2 text-sm text-slate-400">asistentes aproximados en la UCSG</p>
+      </div>
+      <div class="stat card spot relative overflow-hidden rounded-3xl p-7 md:p-9" data-reveal>
+        <div class="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-fuchsia-500/20 blur-3xl" aria-hidden="true"></div>
+        <p class="text-[11px] font-bold uppercase tracking-[.25em] text-fuchsia-400">Alcance digital</p>
+        <p class="font-display font-extrabold text-6xl md:text-7xl text-white tabular-nums mt-3"><span data-count="2126" data-format="es">2.126</span></p>
+        <p class="mt-2 text-sm text-slate-400">personas alcanzadas a través de las transmisiones y canales digitales institucionales</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mt-5">
       <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
         <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="7">7</span></p>
         <p class="mt-2 text-sm font-semibold text-sky-300">Conferencias magistrales</p>
         <p class="text-xs text-slate-500 mt-1">3 en el Día 1 · 4 en el Día 2</p>
       </div>
       <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
-        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="7">7</span></p>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="8">8</span></p>
         <p class="mt-2 text-sm font-semibold text-fuchsia-300">Charlas educativas</p>
-        <p class="text-xs text-slate-500 mt-1">4 en el Día 1 · 3 en el Día 2</p>
+        <p class="text-xs text-slate-500 mt-1">Experiencias y propuestas de aula</p>
       </div>
       <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
-        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="2">2</span></p>
-        <p class="mt-2 text-sm font-semibold text-lime-300">Lanzamientos oficiales</p>
-        <p class="text-xs text-slate-500 mt-1">Guías Didácticas · CIETE‑CONCEPT</p>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="10">10</span></p>
+        <p class="mt-2 text-sm font-semibold text-lime-300">Talleres simultáneos de IA</p>
+        <p class="text-xs text-slate-500 mt-1">Día 1 · laboratorios de la UCSG</p>
       </div>
       <div class="stat card spot relative overflow-hidden rounded-3xl p-6 md:p-7" data-reveal>
-        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="11">11</span></p>
-        <p class="mt-2 text-sm font-semibold text-purple-300">Talleres prácticos</p>
-        <p class="text-xs text-slate-500 mt-1">10 de Inteligencia Artificial · 1 hackathon comunitario de robótica</p>
+        <p class="font-display font-extrabold text-5xl md:text-6xl text-white tabular-nums"><span data-count="1">1</span></p>
+        <p class="mt-2 text-sm font-semibold text-purple-300">Hackathon de robótica educativa</p>
+        <p class="text-xs text-slate-500 mt-1">Máquina de Goldberg · Día 2</p>
       </div>
     </div>
 
@@ -462,8 +483,20 @@ const DAYS = [
       { type:'Charla Educativa', who:'Mgs. Marcos Rafael Salas Acosta', av:['Salas'], role:'Rector (Colegio Fiscal Técnico Industrial Febres Cordero)',
         title:'La IA como herramienta en la gestión administrativa', t:0, link:'https://www.youtube.com/live/xhkJBf5n1Jc?si=TWCR-mzXPfSnrn-6',
         sum:'Aplicación práctica de herramientas de automatización e IA en la optimización de procesos directivos y gestión administrativa.' },
-      { type:'Taller Práctico (Tarde)', who:'Varios Facilitadores', av:['IA'], role:'Asignados según tarjeta/laboratorio (UCSG)',
+      { type:'Taller Práctico (Tarde)', who:'10 facilitadores', av:['IA'], role:'Asignados según tarjeta/laboratorio (UCSG)',
         title:'10 talleres prácticos de Inteligencia Artificial con distintas temáticas', workshopChip:'10 talleres de IA', t:null, gallery:'dia1-tarde',
+        list:[
+          { who:'Dr. Diego Apolo Buenaño', av:'Diego', title:'Eduprosumidores: actores educativos para la era digital' },
+          { who:'Dra. Alexandra Verdugo Cabrera', av:'VerdugoCabrera', title:'Diseñando experiencias de aprendizaje con Inteligencia Artificial Generativa' },
+          { who:'Ing. Abigail Mora Reinado', av:'Mora', title:'Transformando aulas con IA: Herramientas educativas innovadoras' },
+          { who:'Ing. Ángel Castro Peñarreta, Mgs.', av:'Castro', title:'Simular para aprender: IA generativa para desarrollar habilidades profesionales en estudiantes' },
+          { who:'Ing. Hernán Lara Padilla, PhD.', av:'Lara', title:'¿Cómo enseñamos a pensar a las máquinas?' },
+          { who:'Ing. Galo Cornejo Gómez, Mgs.', av:'Cornejo', title:'Inteligencia Artificial en el Aula: Diseño Curricular, Evaluación Auténtica y Creación de Asistentes Pedagógicos' },
+          { who:'Mgs. Yulik Arévalo Rosabal', av:'Arevalo', title:'Creación de Recursos Educativos Abiertos para docentes con IA' },
+          { who:'Mgs. Marcos Rafael Salas Acosta', av:'Salas', title:'La IA como herramienta en la gestión administrativa' },
+          { who:'Mgs. Hamilton Cabrera Brunes', av:'Cabrera', title:'Creación de aplicaciones interactivas con IA' },
+          { who:'Mgs. Jorge Muñoz', av:'Munoz', title:'Docente más IA: optimiza la labor docente' }
+        ],
         sum:'Diez talleres simultáneos en los laboratorios de la UCSG, cada uno con una temática distinta, sobre herramientas e implementación práctica de IA en el aula.' }
     ]
   },
@@ -638,6 +671,29 @@ function carousel(gi){
   </div>`;
 }
 
+function workshopGrid(w, d){
+  const a = ACC[d.accent];
+  return `
+  <div class="container mx-auto px-4 sm:px-6 mt-14">
+    <div class="flex items-end justify-between gap-4 mb-6" data-reveal>
+      <h4 class="font-display font-extrabold text-white text-2xl md:text-3xl tracking-tight">Los <span class="gradient-text">${w.list.length} talleres</span> simultáneos</h4>
+      <p class="hidden sm:block text-sm text-slate-500">Laboratorios de la UCSG · ${d.date.split(' ').slice(1).join(' ')}</p>
+    </div>
+    <ol class="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+      ${w.list.map((t,i) => `
+      <li class="talk card card-hover spot relative overflow-hidden rounded-3xl p-5" style="--dot:#a855f7">
+        <div class="flex items-center justify-between gap-3">
+          ${avatar(t.av, 0)}
+          <span class="font-display font-extrabold text-3xl text-white/10 tabular-nums" aria-hidden="true">${pad(i+1)}</span>
+        </div>
+        <p class="text-[10px] font-bold tracking-widest uppercase ${a.text} mt-4">Taller ${i+1}</p>
+        <h5 class="font-display font-bold text-white text-[15px] leading-snug mt-1.5">“${esc(t.title)}”</h5>
+        <p class="text-xs text-slate-400 mt-3">${esc(t.who)}</p>
+      </li>`).join('')}
+    </ol>
+  </div>`;
+}
+
 function halfHeader(g, extra=''){
   const a = ACC[g.accent];
   return `
@@ -703,6 +759,7 @@ function renderDays(){
     <div class="mt-24">
       ${halfHeader(GALLERIES[gt], ws)}
       ${carousel(gt)}
+      ${workshop && workshop.list ? workshopGrid(workshop, d) : ''}
     </div>
   </div>
 </section>`;
@@ -876,7 +933,7 @@ function setupMotion(){
   document.querySelectorAll('[data-count]').forEach(el => {
     const o = { v:0 };
     gsap.to(o, { v:+el.dataset.count, duration:1.6, ease:'power2.out', snap:{ v:1 },
-      scrollTrigger:{ trigger:el, start:'top 90%', once:true }, onUpdate:() => el.textContent = o.v });
+      scrollTrigger:{ trigger:el, start:'top 90%', once:true }, onUpdate:() => el.textContent = String(o.v).replace(/\B(?=(\d{3})+(?!\d))/g,'.') });
   });
 }
 
